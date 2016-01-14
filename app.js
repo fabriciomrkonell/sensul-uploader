@@ -7,18 +7,17 @@ var express = require('express'),
     multer = require('multer'),
     bodyParser = require('body-parser');
 
-var storage =   multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, './uploads');
-  },
-  filename: function (req, file, callback) {
-    callback(null, file.fieldname + '-' + Date.now());
-  }
-});
-
-var app = express();
-
-var upload = multer({ storage : storage}).single('filecsv');
+var app = express(),
+    upload = multer({
+      storage: multer.diskStorage({
+        destination: function (req, file, callback) {
+          callback(null, './uploads');
+        },
+        filename: function (req, file, callback) {
+          callback(null, file.fieldname + '-' + Date.now());
+       }
+      })
+    }).single('filecsv');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -35,11 +34,11 @@ app.get('/', function(req, res, next) {
   res.sendfile(__dirname + '/views/index.html');
 });
 
-app.post('/uploads', function(req,res){
-  upload(req,res,function(err) {
+app.post('/upload', function(req,res){
+  upload(req, res,function(err) {
     console.log(err);
     if(err) {
-        return res.end("Error uploading file.");
+      return res.end("Error uploading file.");
     }
     res.end("File is uploaded");
   });

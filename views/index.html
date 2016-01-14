@@ -39,14 +39,14 @@
     <div class="container container-view">
       <div class="row">
         <div class="col-sm-6">
-          <form method="post" action="/uploads" enctype="multipart/form-data">
+          <form method="post" action="/upload" enctype="multipart/form-data">
             <div class="form-group">
               <label>Produtor</label>
               <input type="text" class="form-control" placeholder="Nome do produtor">
             </div>
             <div class="form-group">
               <label>Arquivo</label>
-              <input type="file" name="filecsv" id="filecsv">
+              <input type="file" name="filecsv" id="filecsv" source=".csv">
               <p class="help-block">Selecione o arquivo .CSV</p>
             </div>
             <button type="submit" class="btn btn-default">Enviar</button>
