@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -9,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="app/libraries/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="app/dist/css/style.css">
   </head>
-  <body ng-controller="indexCtrl">
+  <body>
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -24,7 +25,8 @@
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><a href="/">Home</a></li>
+          <li><a href="/#index">Home</a></li>
+          <li><a href="/#grower">Produtores</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
@@ -37,43 +39,17 @@
       </div>
     </nav>
     <div class="container container-view">
-      <div class="row">
-        <div class="col-sm-6">
-          <form method="post" action="/upload" enctype="multipart/form-data">
-            <div class="form-group">
-              <label>Produtor</label>
-              <input type="text" class="form-control" placeholder="Nome do produtor">
-            </div>
-            <div class="form-group">
-              <label>Arquivo</label>
-              <input type="file" name="filecsv" id="filecsv" source=".csv">
-              <p class="help-block">Selecione o arquivo .CSV</p>
-            </div>
-            <button type="submit" class="btn btn-default">Enviar</button>
-          </form>
-        </div>
-        <div class="col-sm-6">
-          <table class="table table-responsive table-condensed table-bordered">
-            <thead>
-              <tr>
-                <th>Produtor</th>
-                <th>Arquivo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Fulano 1</td>
-                <td><a href="#">Plantacao.csv</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <ng-view></ng-view>
     </div>
     <script src="app/libraries/angularjs/js/angular.min.js"></script>
+    <script src="app/libraries/angularjs/js/angular-route.min.js"></script>
     <script src="app/libraries/jquery/js/jquery.min.js"></script>
+    <script src="app/libraries/jquery/js/jquery-form.js"></script>
     <script src="app/libraries/bootstrap/js/bootstrap.min.js"></script>
     <script src="app/app.js"></script>
     <script src="app/controllers/index.js"></script>
+    <script src="app/controllers/grower.js"></script>
+    <script src="app/config/config.js"></script>
+    <script src="app/constant/constant.js"></script>
   </body>
 </html>
