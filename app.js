@@ -7,7 +7,8 @@ var express = require('express'),
     multer = require('multer'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
-    route_grower = require('./routes/grower');
+    route_grower = require('./routes/grower'),
+    route_greenhouse = require('./routes/greenhouse');
 
 var app = express(),
     db = mongoose.connection,
@@ -44,6 +45,7 @@ app.set('view cache', true);
 
 // Routes - All
 app.use('/grower', route_grower);
+app.use('/greenhouse', route_greenhouse);
 
 // Routes - Pages
 app.get('/', function(req, res, next) {
