@@ -3,14 +3,16 @@
     <div class="col-sm-4">
       <form>
         <div class="form-group">
-          <label>Produtor</label>
-          <input type="text" class="form-control" placeholder="Nome do produtor" ng-model="data.name">
+          <label>Nome</label>
+          <input type="text" class="form-control" placeholder="Nome do abrigo" ng-model="data.name">
         </div>
         <div class="form-group">
-          <label>Cidade</label>
-          <input type="text" class="form-control" placeholder="Nome da cidade" ng-model="data.city">
+          <label>Produtor</label>
+           <select class="form-control" ng-options="grower.name for grower in growers" ng-model="data.grower">
+            <option value="">Selecione</option>
+           </select>
         </div>
-        <button type="button" class="btn btn-default" ng-click="saveGrower(data)">Salvar</button>
+        <button type="button" class="btn btn-default" ng-click="saveGreenHouse(data)" ng-disabled="data.grower == null">Salvar</button>
         <button type="button" class="btn btn-default" ng-click="clear()">Limpar</button>
       </form>
     </div>
@@ -19,19 +21,18 @@
         <thead>
           <tr>
             <th>Produtor</th>
-            <th>Cidade</th>
+
             <th width='80' class="text-center">Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="grower in growers">
-            <td>{{grower.name}}</td>
-            <td>{{grower.city}}</td>
+          <tr ng-repeat="greenhouse in greenhouses">
+            <td>{{greenhouse.name}}</td>
             <td width='80' class="text-center">
-              <button type="button" class="btn btn-default btn-xs" ng-click="editGrower(grower)">
+              <button type="button" class="btn btn-default btn-xs" ng-click="editGreenHouse(greenhouse)">
                 <i class="glyphicon glyphicon-pencil"></i>
               </button>
-              <button type="button" class="btn btn-default btn-xs" ng-click="deleteGrower(grower, $index)">
+              <button type="button" class="btn btn-default btn-xs" ng-click="deleteGreenHouse(greenhouse, $index)">
                 <i class="glyphicon glyphicon-remove"></i>
               </button>
             </td>

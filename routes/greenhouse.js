@@ -17,6 +17,7 @@ router.post('/', function(req, res, next) {
 			greenhouse = new GrennHouse();
 		}
 	  greenhouse.name = req.body.name;
+	  greenhouse.grower = req.body.grower;
     greenhouse.save(function(err, data) {
 		  if (err) throw res.send({ error: true, message: 'GrennHouse: error.', data: err });
 		  res.send({ error: false, message: 'GrennHouse: success.', data: data });
