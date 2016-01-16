@@ -4,24 +4,15 @@ var express = require('express'),
     path = require('path'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
-    multer = require('multer'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
     route_grower = require('./routes/grower'),
-    route_greenhouse = require('./routes/greenhouse');
+    route_upload = require('./routes/upload'),
+    route_greenhouse = require('./routes/greenhouse'),
+    crontab = require('node-crontab');
 
 var app = express(),
-    db = mongoose.connection,
-    upload = multer({
-      storage: multer.diskStorage({
-        destination: function (req, file, callback) {
-          callback(null, './uploads');
-        },
-        filename: function (req, file, callback) {
-          callback(null, file.fieldname + '-' + Date.now());
-       }
-      })
-    }).single('filecsv');
+    db = mongoose.connection;
 
 // Database
 mongoose.connect('mongodb://localhost/sensul');
@@ -46,6 +37,7 @@ app.set('view cache', true);
 // Routes - All
 app.use('/grower', route_grower);
 app.use('/greenhouse', route_greenhouse);
+app.use('/upload', route_upload);
 
 // Routes - Pages
 app.get('/', function(req, res, next) {
@@ -54,17 +46,6 @@ app.get('/', function(req, res, next) {
 
 app.get('/partials/:file', function(req, res, next) {
   res.sendfile(__dirname + '/views/partials/' + req.param('file'));
-});
-
-// Upload
-app.post('/upload', function(req,res){
-  upload(req, res,function(err) {
-    console.log(err);
-    if(err) {
-      return res.send({ error: true, message: "Error uploading file." });
-    }
-    res.send({ error: false, message: "File is uploaded" });
-  });
 });
 
 app.use(function(req, res, next) {
@@ -83,6 +64,10 @@ if (app.get('env') === 'development') {
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.send(err);
+});
+
+crontab.scheduleJob("*/60 * * * *", function(){
+  console.log("It's been 60 minutes!");
 });
 
 module.exports = app;

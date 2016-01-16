@@ -20,14 +20,15 @@
       <table class="table table-responsive table-condensed table-bordered">
         <thead>
           <tr>
+            <th>Abrigo</th>
             <th>Produtor</th>
-
             <th width='80' class="text-center">Ações</th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat="greenhouse in greenhouses">
             <td>{{greenhouse.name}}</td>
+            <td>{{greenhouse.grower.name}}</td>
             <td width='80' class="text-center">
               <button type="button" class="btn btn-default btn-xs" ng-click="editGreenHouse(greenhouse)">
                 <i class="glyphicon glyphicon-pencil"></i>

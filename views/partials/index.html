@@ -1,10 +1,15 @@
 <div>
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
       <form id="formUpload" method="post" action="/upload" enctype="multipart/form-data">
         <div class="form-group">
-          <label>Produtor</label>
-          <input type="text" class="form-control" placeholder="Nome do produtor">
+          <label>Abrigo</label>
+          <select class="form-control" ng-options="(greenhouse.name + ' - ' + greenhouse.grower.name) for greenhouse in greenhouses" ng-model="data.greenhouse">
+            <option value="">Selecione</option>
+           </select>
+           <input class="form-control" value="{{data.greenhouse._id}}" ng-show="false" name="greenhouse" />
+            <option value="">Selecione</option>
+           </select>
         </div>
         <div class="form-group">
           <label>Arquivo</label>
@@ -12,20 +17,29 @@
           <p class="help-block">Selecione o arquivo .CSV</p>
         </div>
         <button type="button" class="btn btn-default" ng-click="sendUpload()">Enviar</button>
+        <button type="button" class="btn btn-default" ng-click="clear()">Limpar</button>
       </form>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-8">
       <table class="table table-responsive table-condensed table-bordered">
         <thead>
           <tr>
+            <th>Abrigo</th>
             <th>Produtor</th>
             <th>Arquivo</th>
+            <th width='60' class="text-center">Ações</th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat="upload in uploads">
-            <td>Fulano 1</td>
-            <td><a href="#">Plantacao.csv</a></td>
+            <td>{{upload.greenhouse.name}}</td>
+            <td>{{getGrowerName(upload.greenhouse)}}</td>
+            <td><a href="{{upload.path}}" target="_blank">{{upload.name}}</a></td>
+            <td width='60' class="text-center">
+              <button type="button" class="btn btn-default btn-xs" ng-click="deleteUpload(upload, $index)">
+                <i class="glyphicon glyphicon-remove"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>

@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
 var GreenHouse = mongoose.model('GreenHouse', new Schema({
   name: String,
   grower: { type: Schema.ObjectId, ref: 'Grower'},
+  uploads: [{ type: Schema.ObjectId, ref: 'Upload' }],
   created_at: Date,
   updated_at: Date
 }));

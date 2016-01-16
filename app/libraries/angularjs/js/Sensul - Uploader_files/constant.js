@@ -5,8 +5,7 @@
 	angular.module('Sensul.constant').constant('Constant', {
 		url: {
 			Grower: '/grower',
-			GreenHouse: '/greenhouse',
-			Upload: '/upload'
+			GreenHouse: '/greenhouse'
 		}
 	});
 
