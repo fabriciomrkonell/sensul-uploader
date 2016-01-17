@@ -2,36 +2,46 @@
 
 var express = require('express'),
 		router = express.Router(),
-		GrennHouse = require('../models/greenhouse');
+		GreenHouse = require('../models/greenhouse'),
+		Upload = require('../models/upload');
 
 router.get('/', function(req, res, next) {
-	GrennHouse.find().populate('grower').exec(function(err, data) {
-    if (err) throw console.log({ error: true, message: 'GrennHouse: error.', data: err });
-  	res.send({ error: false, message: 'GrennHouse: success.', data: data });
+	GreenHouse.find().populate('grower').exec(function(err, data) {
+    if (err) throw console.log({ error: true, message: 'GreenHouse: error.', data: err });
+  	res.send({ error: false, message: 'GreenHouse: success.', data: data });
   });
 });
 
 router.post('/', function(req, res, next) {
-	GrennHouse.findById(req.body._id, function(err, greenhouse) {
+	GreenHouse.findById(req.body._id, function(err, greenhouse) {
 		if(greenhouse === null){
-			greenhouse = new GrennHouse();
+			greenhouse = new GreenHouse();
 		}
 	  greenhouse.name = req.body.name;
 	  greenhouse.grower = req.body.grower;
     greenhouse.save(function(err, data) {
-		  if (err) throw console.log({ error: true, message: 'GrennHouse: error.', data: err });
-		  res.send({ error: false, message: 'GrennHouse: success.', data: data });
+		  if (err) throw console.log({ error: true, message: 'GreenHouse: error.', data: err });
+		  res.send({ error: false, message: 'GreenHouse: success.', data: data });
 		});
 	});
 });
 
 router.delete('/:id', function(req, res, next) {
-	GrennHouse.remove({
-  	_id: req.param('id')
-  }, function(err, data) {
-    if (err) throw console.log({ error: true, message: 'GrennHouse: error.', data: err });
-	  res.send({ error: false, message: 'GrennHouse: success.', data: data });
-  });
+	Upload.count({ greenhouse: req.param('id') }).exec(function(err, count){
+		if(count === 0){
+			GreenHouse.remove({
+		  	_id: req.param('id')
+		  }, function(err, data) {
+		  	Upload.remove({ greenhouse: req.param('id') }).exec();
+		    if (err) throw console.log({ error: true, message: 'GreenHouse: error.', data: err });
+			  res.send({ error: false, message: 'GreenHouse: success.', data: data });
+		  });
+		}else{
+			res.send({ error: true, message: 'Este abrigo contém ' + count + ' upload(s) relacionados.', data: count });
+		}
+	});
+
+
 });
 
 module.exports = router;

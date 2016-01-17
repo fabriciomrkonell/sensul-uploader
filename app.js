@@ -9,6 +9,7 @@ var express = require('express'),
     route_grower = require('./routes/grower'),
     route_upload = require('./routes/upload'),
     route_greenhouse = require('./routes/greenhouse'),
+    googleDrive = require('./credentials/google'),
     crontab = require('node-crontab');
 
 var app = express(),
@@ -67,7 +68,9 @@ app.use(function(err, req, res, next) {
 });
 
 crontab.scheduleJob("*/60 * * * *", function(){
-  console.log("It's been 60 minutes!");
+  googleDrive.search(function(auth){
+   googleDrive.refresh(auth);
+  });
 });
 
 module.exports = app;

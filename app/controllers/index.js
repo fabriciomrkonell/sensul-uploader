@@ -4,13 +4,11 @@
 
 	angular.module('Sensul.controllers').controller('indexCtrl', indexCtrl);
 
-	indexCtrl.$inject = ['$scope', '$http', 'Constant'];
+	indexCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
 
-	function indexCtrl($scope, $http, Constant) {
+	function indexCtrl($scope, $http, Constant, $rootScope) {
 
 		angular.extend($scope, {
-			uploads: [],
-			greenhouses: [],
 			data: {}
 		});
 
@@ -27,17 +25,30 @@
 
 		$scope.clear();
 
-		$http.get(Constant.url.GreenHouse).success(function(data){
-			$scope.greenhouses = data.data;
-		}).error(function(error){
-			alert(error);
-		});
 
-		$http.get(Constant.url.Upload).success(function(data){
-			$scope.uploads = data.data;
-		}).error(function(error){
-			alert(error);
-		});
+		if($rootScope.options.growers.length === 0){
+			$http.get(Constant.url.Grower).success(function(data){
+				$rootScope.options.growers = data.data;
+			}).error(function(error){
+				alert(error);
+			});
+		}
+
+		if($rootScope.options.greenhouses.length === 0){
+			$http.get(Constant.url.GreenHouse).success(function(data){
+				$rootScope.options.greenhouses = data.data;
+			}).error(function(error){
+				alert(error);
+			});
+		}
+
+		if($rootScope.options.uploads.length === 0){
+			$http.get(Constant.url.Upload).success(function(data){
+				$rootScope.options.uploads = data.data;
+			}).error(function(error){
+				alert(error);
+			});
+		}
 
 		$scope.sendUpload = function(){
 			if($scope.validForm()) return false;
@@ -49,7 +60,7 @@
         success: function(data) {
         	data = JSON.parse(data);
 					data.data.greenhouse = $scope.data.greenhouse;
-					$scope.uploads.push(data.data);
+					$rootScope.options.uploads.push(data.data);
           $scope.clear();
         }
       });
@@ -57,15 +68,24 @@
 
 		$scope.getGrowerName = function(data, exit){
 			data = data || {};
-			$scope.greenhouses.forEach(function(item){
-				if(item._id === data._id) exit = item.grower.name;
+			$rootScope.options.growers.forEach(function(item){
+				if(item._id === data.grower) exit = item.name;
+				if(item._id === data.grower._id) exit = item.name;
+			});
+			return exit;
+		};
+
+		$scope.getGreenHouseName = function(data, exit){
+			data = data || {};
+			$rootScope.options.greenhouses.forEach(function(item){
+				if(item._id === data._id) exit = item.name;
 			});
 			return exit;
 		};
 
 		$scope.deleteUpload= function(item, index){
 			$http.delete(Constant.url.Upload + '/' + item._id).success(function(data){
-				$scope.uploads.splice(index, 1);
+				$rootScope.options.uploads.splice(index, 1);
 			}).error(function(error){
 				alert(error);
 			});

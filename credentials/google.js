@@ -2,6 +2,7 @@
 
 var fs = require('fs'),
     readline = require('readline'),
+    Upload = require('../models/upload'),
     google = require('googleapis'),
     googleAuth = require('google-auth-library'),
     google_secret = './credentials/sensul-uploader-secret.json',
@@ -44,28 +45,26 @@ exports.listAllFiles = function(auth, req, res, next) {
   });
 };
 
-function createFile(auth){
-  var service = google.drive('v3');
-  var fileMetadata = {
-    'name': 'My Report',
-    'mimeType': 'application/vnd.google-apps.spreadsheet',
-    parents: ['0B0ppDK6BvhqUNU5vQTNGUFVwWEE']
-  };
-  var media = {
-    mimeType: 'text/csv',
-    body: fs.createReadStream(google_app)
-  };
-  service.files.create({
-     auth: auth,
-     resource: fileMetadata,
-     media: media,
-     fields: 'id'
-  }, function(err, file) {
-    if(err) {
-      // Handle error
-      console.log(err);
-    } else {
-      console.log('File Id:' , file.id);
-    }
+exports.refresh = function(auth){
+  var service = google.drive('v3'),
+      date = new Date();
+
+  date.setMinutes(date.getMinutes() - 60);
+  Upload.find({ created_at: { $gte: date } }).exec(function(err, data) {
+    data.forEach(function(item){
+      service.files.create({
+        auth: auth,
+        resource: {
+          'name': item.name,
+          'mimeType': 'application/vnd.google-apps.spreadsheet',
+          parents: ['0B0ppDK6BvhqUNU5vQTNGUFVwWEE']
+        },
+        media: {
+          mimeType: 'text/csv',
+          body: fs.createReadStream(item.path)
+        },
+        fields: 'id'
+      });
+    });
   });
 }

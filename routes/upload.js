@@ -3,7 +3,6 @@
 var express = require('express'),
 		router = express.Router(),
 		Upload = require('../models/upload'),
-		googleDrive = require('../credentials/google'),
 		fs = require('fs'),
 		multer = require('multer'),
 		upload = multer({
@@ -17,12 +16,6 @@ var express = require('express'),
       })
     }).single('filecsv');
 
-/*
-googleDrive.search(function(auth){
-	googleDrive.listAllFiles(auth, req, res, next);
-});
-*/
-
 router.get('/', function(req, res, next) {
 	Upload.find().populate('greenhouse').exec(function(err, data) {
     if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
@@ -34,9 +27,10 @@ router.post('/', function(req, res, next){
   upload(req, res, function(err, data) {
     if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
 			var upload = new Upload();
-		  upload.name = req.file.filename;
+		  upload.name = req.file.originalname;
 		  upload.greenhouse = req.body.greenhouse;
 		  upload.path = req.file.path;
+		  upload.created_at = new Date();
 	    upload.save(function(err, data) {
 			  if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
 			  res.send({ error: false, message: 'Upload: success.', data: data });

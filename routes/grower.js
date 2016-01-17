@@ -2,6 +2,7 @@
 
 var express = require('express'),
 		router = express.Router(),
+		GreenHouse = require('../models/greenhouse'),
 		Grower = require('../models/grower');
 
 router.get('/', function(req, res, next) {
@@ -26,12 +27,18 @@ router.post('/', function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-	Grower.remove({
-  	_id: req.param('id')
-  }, function(err, data) {
-    if (err) throw console.log({ error: true, message: 'Grover: error.', data: err });
-	  res.send({ error: false, message: 'Grover: success.', data: data });
-  });
+	GreenHouse.count({ grower: req.param('id') }).exec(function(err, count){
+		if(count === 0){
+			Grower.remove({
+		  	_id: req.param('id')
+		  }, function(err, data) {
+		    if (err) throw console.log({ error: true, message: 'Grover: error.', data: err });
+			  res.send({ error: false, message: 'Grover: success.', data: data });
+		  });
+		}else{
+			res.send({ error: true, message: 'Este produtor contém ' + count + ' abrigo(s) relacionados.', data: count });
+		}
+	});
 });
 
 module.exports = router;

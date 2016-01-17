@@ -4,7 +4,7 @@
       <form id="formUpload" method="post" action="/upload" enctype="multipart/form-data">
         <div class="form-group">
           <label>Abrigo</label>
-          <select class="form-control" ng-options="(greenhouse.name + ' - ' + greenhouse.grower.name) for greenhouse in greenhouses" ng-model="data.greenhouse">
+          <select class="form-control" ng-options="(greenhouse.name + ' - ' + greenhouse.grower.name) for greenhouse in options.greenhouses" ng-model="data.greenhouse">
             <option value="">Selecione</option>
            </select>
            <input class="form-control" value="{{data.greenhouse._id}}" ng-show="false" name="greenhouse" />
@@ -13,7 +13,7 @@
         </div>
         <div class="form-group">
           <label>Arquivo</label>
-          <input type="file" name="filecsv" id="filecsv" source=".csv" ng-model="data.filecsv">
+          <input type="file" name="filecsv" id="filecsv" accept=".csv" ng-model="data.filecsv">
           <p class="help-block">Selecione o arquivo .CSV</p>
         </div>
         <button type="button" class="btn btn-default" ng-click="sendUpload()">Enviar</button>
@@ -31,8 +31,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="upload in uploads">
-            <td>{{upload.greenhouse.name}}</td>
+          <tr ng-repeat="upload in options.uploads">
+            <td>{{getGreenHouseName(upload.greenhouse)}}</td>
             <td>{{getGrowerName(upload.greenhouse)}}</td>
             <td><a href="{{upload.path}}" target="_blank">{{upload.name}}</a></td>
             <td width='60' class="text-center">

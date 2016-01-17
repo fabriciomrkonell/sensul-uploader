@@ -8,11 +8,11 @@
         </div>
         <div class="form-group">
           <label>Produtor</label>
-           <select class="form-control" ng-options="grower.name for grower in growers" ng-model="data.grower">
+           <select class="form-control" ng-options="grower.name for grower in options.growers" ng-model="data.grower">
             <option value="">Selecione</option>
            </select>
         </div>
-        <button type="button" class="btn btn-default" ng-click="saveGreenHouse(data)" ng-disabled="data.grower == null">Salvar</button>
+        <button type="button" class="btn btn-default" ng-click="saveGreenHouse(data)">Salvar</button>
         <button type="button" class="btn btn-default" ng-click="clear()">Limpar</button>
       </form>
     </div>
@@ -26,9 +26,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="greenhouse in greenhouses">
+          <tr ng-repeat="greenhouse in options.greenhouses">
             <td>{{greenhouse.name}}</td>
-            <td>{{greenhouse.grower.name}}</td>
+            <td>{{getGrowerName(greenhouse)}}</td>
             <td width='80' class="text-center">
               <button type="button" class="btn btn-default btn-xs" ng-click="editGreenHouse(greenhouse)">
                 <i class="glyphicon glyphicon-pencil"></i>
