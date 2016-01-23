@@ -4,17 +4,14 @@
       <form id="formUpload" method="post" action="/upload" enctype="multipart/form-data">
         <div class="form-group">
           <label>Abrigo</label>
-          <select class="form-control" ng-options="(greenhouse.name + ' - ' + greenhouse.grower.name) for greenhouse in options.greenhouses" ng-model="data.greenhouse">
+          <select class="form-control" ng-options="(greenhouse.name + ' - ' + getGrower(greenhouse.grower).name) for greenhouse in options.greenhouses" ng-model="data.greenhouse">
             <option value="">Selecione</option>
            </select>
            <input class="form-control" value="{{data.greenhouse._id}}" ng-show="false" name="greenhouse" />
-            <option value="">Selecione</option>
-           </select>
         </div>
         <div class="form-group">
           <label>Arquivo</label>
           <input type="file" name="filecsv" id="filecsv" accept=".csv" ng-model="data.filecsv">
-          <p class="help-block">Selecione um arquivo .CSV</p>
         </div>
         <button type="button" class="btn btn-default" ng-click="sendUpload()">Enviar</button>
         <button type="button" class="btn btn-default" ng-click="clear()">Limpar</button>
@@ -25,6 +22,7 @@
         <thead>
           <tr>
             <th>Abrigo</th>
+            <th>Produtor</th>
             <th>Arquivo</th>
             <th width='60' class="text-center">Ações</th>
           </tr>
@@ -32,6 +30,7 @@
         <tbody>
           <tr ng-repeat="upload in options.uploads">
             <td>{{getGreenhouse(upload.greenhouse).name}}</td>
+            <td>{{getGrower(getGreenhouse(upload.greenhouse).grower).name}}</td>
             <td><a href="{{upload.path}}" target="_blank">{{upload.name}}</a></td>
             <td width='60' class="text-center">
               <button type="button" class="btn btn-default btn-xs" ng-click="deleteUpload(upload, $index)">

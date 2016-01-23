@@ -13,9 +13,10 @@
     }).when('/greenhouse', {
       templateUrl: 'partials/greenhouse.html',
       controller: 'greenhouseCtrl'
-    }).otherwise({
-      redirectTo: '/index'
-    });
+    }).when('/user', {
+      templateUrl: 'partials/user.html',
+      controller: 'userCtrl'
+    }).otherwise('/index');
 
   }]);
 

@@ -6,7 +6,7 @@ var express = require('express'),
 		Upload = require('../models/upload');
 
 router.get('/', function(req, res, next) {
-	GreenHouse.find().populate('grower').exec(function(err, data) {
+	GreenHouse.find().exec(function(err, data) {
     if (err) throw console.log({ error: true, message: 'GreenHouse: error.', data: err });
   	res.send({ error: false, message: 'GreenHouse: success.', data: data });
   });
@@ -16,9 +16,11 @@ router.post('/', function(req, res, next) {
 	GreenHouse.findById(req.body._id, function(err, greenhouse) {
 		if(greenhouse === null){
 			greenhouse = new GreenHouse();
+			greenhouse.created_at = new Date;
 		}
 	  greenhouse.name = req.body.name;
 	  greenhouse.grower = req.body.grower;
+	  greenhouse.updated_at = new Date();
     greenhouse.save(function(err, data) {
 		  if (err) throw console.log({ error: true, message: 'GreenHouse: error.', data: err });
 		  res.send({ error: false, message: 'GreenHouse: success.', data: data });

@@ -8,10 +8,12 @@ angular.module('Sensul.constant', []);
 
 angular.module('Sensul', ['Sensul.controllers', 'Sensul.config', 'Sensul.constant']);
 
-angular.module('Sensul').run(['$rootScope', function($rootScope){
+angular.module('Sensul').run(['$rootScope', 'Constant', function($rootScope, Constant){
 
 	angular.extend($rootScope, {
 		options: {
+			types: Constant.options.Users,
+			users: [],
 			greenhouses: [],
 			growers: [],
 			uploads: []
@@ -32,6 +34,14 @@ angular.module('Sensul').run(['$rootScope', function($rootScope){
 		$rootScope.options.greenhouses.forEach(function(item){
 			if(item._id === data._id) exit = item;
 			if(item._id === data) exit = item;
+		});
+		return exit;
+	};
+
+	$rootScope.getUserType = function(type){
+		var exit = {};
+		$rootScope.options.types.forEach(function(item){
+			if(item.id === type) exit = item;
 		});
 		return exit;
 	};

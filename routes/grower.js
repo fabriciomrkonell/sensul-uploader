@@ -16,9 +16,11 @@ router.post('/', function(req, res, next) {
 	Grower.findById(req.body._id, function(err, grower) {
 		if(grower === null){
 			grower = new Grower();
+			grower.created_at = new Date;
 		}
 	  grower.name = req.body.name;
 	  grower.city = req.body.city;
+	  grower.updated_at = new Date();
     grower.save(function(err, data) {
 		  if (err) throw console.log({ error: true, message: 'Grover: error.', data: err });
 		  res.send({ error: false, message: 'Grover: success.', data: data });

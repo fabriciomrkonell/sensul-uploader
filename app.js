@@ -3,17 +3,20 @@
 var express = require('express'),
     path = require('path'),
     mongoose = require('mongoose'),
+    bodyParser = require('body-parser'),
     route_grower = require('./routes/grower'),
     route_upload = require('./routes/upload'),
     route_greenhouse = require('./routes/greenhouse'),
+    route_user = require('./routes/user'),
     googleDrive = require('./credentials/google'),
     passport = require('passport'),
     Strategy = require('passport-local').Strategy,
+    db_passport = require('./config/passport'),
+    init = require('./config/init'),
     crontab = require('node-crontab');
 
 var app = express(),
-    db = mongoose.connection,
-    db2 = require('./config');
+    db = mongoose.connection;
 
 // Database
 mongoose.connect('mongodb://localhost/sensul');
@@ -28,7 +31,7 @@ db.on('error', function(){
 // Configuration Strategy Local
 passport.use(new Strategy(
   function(username, password, cb) {
-    db2.users.findByUsername(username, function(err, user) {
+    db_passport.findByUsername(username, function(err, user) {
       if (err) { return cb(err); }
       if (!user) { return cb(null, false); }
       if (user.password != password) { return cb(null, false); }
@@ -42,7 +45,7 @@ passport.serializeUser(function(user, cb) {
 });
 
 passport.deserializeUser(function(id, cb) {
-  db2.users.findById(id, function (err, user) {
+  db_passport.findById(id, function (err, user) {
     if (err) { return cb(err); }
     cb(null, user);
   });
@@ -54,7 +57,8 @@ app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, '/')));
 app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
-app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(require('express-session')({ secret: 'sensul-uploader', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -80,9 +84,10 @@ app.get('/logout', function(req, res){
   res.redirect('/login');
 });
 
-app.use('/grower', route_grower);
-app.use('/greenhouse', route_greenhouse);
-app.use('/upload', route_upload);
+app.use('/grower', require('connect-ensure-login').ensureLoggedIn(), route_grower);
+app.use('/greenhouse', require('connect-ensure-login').ensureLoggedIn(), route_greenhouse);
+app.use('/upload', require('connect-ensure-login').ensureLoggedIn(), route_upload);
+app.use('/user', require('connect-ensure-login').ensureLoggedIn(), route_user);
 
 app.use(function(req, res, next) {
   var err = new Error('Não encontrado!');
@@ -107,5 +112,7 @@ crontab.scheduleJob("*/60 * * * *", function(){
    googleDrive.refresh(auth);
   });
 });
+
+init.initialize();
 
 module.exports = app;

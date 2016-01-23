@@ -1,29 +1,29 @@
 'use strict';
 
-var records = [
-    { id: 1, username: 'jack', password: 'secret', displayName: 'Jack', emails: [ { value: 'jack@example.com' } ] }
-  , { id: 2, username: 'jill', password: 'birthday', displayName: 'Jill', emails: [ { value: 'jill@example.com' } ] }
-];
+var User = require('../models/user');
 
 exports.findById = function(id, cb) {
   process.nextTick(function() {
-    var idx = id - 1;
-    if (records[idx]) {
-      cb(null, records[idx]);
-    } else {
-      cb(new Error('User ' + id + ' does not exist'));
-    }
+    User.findById(id).exec(function(err, user) {
+      if(user === null){
+        return cb(new Error('Usuário não existe!'));
+      }else{
+        return cb(null, user);
+      }
+    });
   });
 }
 
 exports.findByUsername = function(username, cb) {
   process.nextTick(function() {
-    for (var i = 0, len = records.length; i < len; i++) {
-      var record = records[i];
-      if (record.username === username) {
-        return cb(null, record);
+    User.find({
+      email: username
+    }).exec(function(err, users) {
+      if(users.length === 0){
+        return cb(null, null);
+      }else{
+        return cb(null, users[0]);
       }
-    }
-    return cb(null, null);
+    });
   });
 }

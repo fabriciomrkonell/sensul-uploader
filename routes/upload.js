@@ -17,7 +17,7 @@ var express = require('express'),
     }).single('filecsv');
 
 router.get('/', function(req, res, next) {
-	Upload.find().populate('greenhouse').exec(function(err, data) {
+	Upload.find().exec(function(err, data) {
     if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
   	res.send({ error: false, message: 'Upload: success.', data: data });
   });
