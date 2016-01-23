@@ -2,18 +2,18 @@
 
 var express = require('express'),
     path = require('path'),
-    logger = require('morgan'),
-    cookieParser = require('cookie-parser'),
     mongoose = require('mongoose'),
-    bodyParser = require('body-parser'),
     route_grower = require('./routes/grower'),
     route_upload = require('./routes/upload'),
     route_greenhouse = require('./routes/greenhouse'),
     googleDrive = require('./credentials/google'),
+    passport = require('passport'),
+    Strategy = require('passport-local').Strategy,
     crontab = require('node-crontab');
 
 var app = express(),
-    db = mongoose.connection;
+    db = mongoose.connection,
+    db2 = require('./config');
 
 // Database
 mongoose.connect('mongodb://localhost/sensul');
@@ -25,29 +25,64 @@ db.on('error', function(){
   console.log('Database: success.');
 });
 
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '/')));
+// Configuration Strategy Local
+passport.use(new Strategy(
+  function(username, password, cb) {
+    db2.users.findByUsername(username, function(err, user) {
+      if (err) { return cb(err); }
+      if (!user) { return cb(null, false); }
+      if (user.password != password) { return cb(null, false); }
+      return cb(null, user);
+    });
+  }));
 
-app.set('view engine', 'html');
+// Configuration Sessions
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+  db2.users.findById(id, function (err, user) {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
 app.set('views', __dirname + '/views');
-app.set('view cache', true);
+app.set('view engine', 'html');
 
-// Routes - All
-app.use('/grower', route_grower);
-app.use('/greenhouse', route_greenhouse);
-app.use('/upload', route_upload);
+app.use(express.static(path.join(__dirname, '/')));
+app.use(require('morgan')('combined'));
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'sensul-uploader', resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
 
-// Routes - Pages
-app.get('/', function(req, res, next) {
+app.get('/', require('connect-ensure-login').ensureLoggedIn(), function(req, res, next) {
   res.sendfile(__dirname + '/views/index.html');
 });
 
-app.get('/partials/:file', function(req, res, next) {
+app.get('/partials/:file', require('connect-ensure-login').ensureLoggedIn(), function(req, res, next) {
   res.sendfile(__dirname + '/views/partials/' + req.param('file'));
 });
+
+app.get('/login', function(req, res){
+  res.sendfile(__dirname + '/views/login.html');
+});
+
+app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
+  res.redirect('/');
+});
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/login');
+});
+
+app.use('/grower', route_grower);
+app.use('/greenhouse', route_greenhouse);
+app.use('/upload', route_upload);
 
 app.use(function(req, res, next) {
   var err = new Error('Não encontrado!');

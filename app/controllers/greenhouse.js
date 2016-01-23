@@ -85,20 +85,11 @@
 			});
 		};
 
-		$scope.getGrowerName = function(data, exit){
-			data = data || {};
-			$rootScope.options.growers.forEach(function(item){
-				if(item._id === data.grower._id) exit = item.name;
-				if(item._id === data.grower) exit = item.name;
-			});
-			return exit;
-		};
-
 		$scope.validForm = function(){
 			if($scope.data.name === '') { alert('Favor preencher o campo Nome!'); return true }
 			if($scope.data.grower === null) { alert('Favor preencher o campo Produtor!'); return true }
 			return false;
-		}
+		};
 
   }
 

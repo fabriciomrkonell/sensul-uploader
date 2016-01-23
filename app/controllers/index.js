@@ -25,7 +25,6 @@
 
 		$scope.clear();
 
-
 		if($rootScope.options.growers.length === 0){
 			$http.get(Constant.url.Grower).success(function(data){
 				$rootScope.options.growers = data.data;
@@ -64,23 +63,6 @@
           $scope.clear();
         }
       });
-		};
-
-		$scope.getGrowerName = function(data, exit){
-			data = data || {};
-			$rootScope.options.growers.forEach(function(item){
-				if(item._id === data.grower) exit = item.name;
-				if(item._id === data.grower._id) exit = item.name;
-			});
-			return exit;
-		};
-
-		$scope.getGreenHouseName = function(data, exit){
-			data = data || {};
-			$rootScope.options.greenhouses.forEach(function(item){
-				if(item._id === data._id) exit = item.name;
-			});
-			return exit;
 		};
 
 		$scope.deleteUpload= function(item, index){
