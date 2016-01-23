@@ -3,6 +3,7 @@
 var express = require('express'),
 		router = express.Router(),
 		Upload = require('../models/upload'),
+		UserGreenHouse = require('../models/usergreenhouse'),
 		fs = require('fs'),
 		multer = require('multer'),
 		upload = multer({
@@ -17,9 +18,19 @@ var express = require('express'),
     }).single('filecsv');
 
 router.get('/', function(req, res, next) {
-	Upload.find().exec(function(err, data) {
-    if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
-  	res.send({ error: false, message: 'Upload: success.', data: data });
+	UserGreenHouse.find({
+		user: req.user._id
+	}, 'greenhouse').exec(function(err, usergreenhouse) {
+		var search = [];
+		usergreenhouse.forEach(function(item){
+			search.push({ 'greenhouse': item.greenhouse });
+		});
+    Upload.find({
+			$or: search
+		}).exec(function(err, data) {
+	    if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
+	  	res.send({ error: false, message: 'Upload: success.', data: data });
+	  });
   });
 });
 

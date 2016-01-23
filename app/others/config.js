@@ -16,6 +16,9 @@
     }).when('/user', {
       templateUrl: 'partials/user.html',
       controller: 'userCtrl'
+    }).when('/usergreenhouse', {
+      templateUrl: 'partials/usergreenhouse.html',
+      controller: 'usergreenhouseCtrl'
     }).otherwise('/index');
 
   }]);

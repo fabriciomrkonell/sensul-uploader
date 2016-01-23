@@ -8,10 +8,13 @@ angular.module('Sensul.constant', []);
 
 angular.module('Sensul', ['Sensul.controllers', 'Sensul.config', 'Sensul.constant']);
 
-angular.module('Sensul').run(['$rootScope', 'Constant', function($rootScope, Constant){
+angular.module('Sensul').run(['$rootScope', 'Constant', '$http', function($rootScope, Constant, $http){
 
 	angular.extend($rootScope, {
+		me: {},
 		options: {
+			meusergreenhouses: [],
+			usergreenhouses: [],
 			types: Constant.options.Users,
 			users: [],
 			greenhouses: [],
@@ -20,7 +23,16 @@ angular.module('Sensul').run(['$rootScope', 'Constant', function($rootScope, Con
 		}
 	});
 
+	$http.get(Constant.url.User + '/me').success(function(data){
+		$rootScope.me = data.data;
+	});
+
+	$rootScope.hasAccess = function(values){
+		return jQuery.inArray($rootScope.me.type, values) !== -1;
+	};
+
 	$rootScope.getGrower = function(data){
+		if(data === undefined) return {};
 		var exit = {};
 		$rootScope.options.growers.forEach(function(item){
 			if(item._id === data._id) exit = item;
@@ -30,6 +42,7 @@ angular.module('Sensul').run(['$rootScope', 'Constant', function($rootScope, Con
 	};
 
 	$rootScope.getGreenhouse = function(data){
+		if(data === undefined) return {};
 		var exit = {};
 		$rootScope.options.greenhouses.forEach(function(item){
 			if(item._id === data._id) exit = item;
@@ -39,6 +52,7 @@ angular.module('Sensul').run(['$rootScope', 'Constant', function($rootScope, Con
 	};
 
 	$rootScope.getUserType = function(type){
+		if(type === undefined) return {};
 		var exit = {};
 		$rootScope.options.types.forEach(function(item){
 			if(item.id === type) exit = item;

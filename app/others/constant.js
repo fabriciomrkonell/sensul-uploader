@@ -7,7 +7,8 @@
 			User: '/user',
 			Grower: '/grower',
 			GreenHouse: '/greenhouse',
-			Upload: '/upload'
+			Upload: '/upload',
+			UserGreenHouse: '/usergreenhouse'
 		},
 		options: {
 			Users: [{

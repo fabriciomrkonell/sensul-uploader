@@ -1,0 +1,42 @@
+<div>
+  <div class="row">
+    <div class="col-sm-4">
+      <form>
+        <div class="form-group">
+          <label>Usuário</label>
+            <select class="form-control" ng-options="user.name for user in options.users" ng-model="data.user" ng-change="search(data.user._id)"></select>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-responsive table-condensed table-bordered">
+        <thead>
+          <tr>
+            <th>Abrigo</th>
+            <th>Produtor</th>
+            <th width='70' class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-show="!loader" ng-repeat="greenhouse in options.greenhouses">
+            <td>{{greenhouse.name}}</td>
+            <td>{{getGrower(greenhouse.grower).name}}</td>
+            <td width='70' class="text-center">
+               <button ng-show="hasChecked(data.user._id, greenhouse._id) === ''" type="button" class="btn btn-default btn-xs" ng-click=" saveUserGreenHouse(data.user._id, greenhouse._id)">
+                <i class="glyphicon glyphicon-unchecked"></i>
+              </button>
+              <button ng-show="hasChecked(data.user._id, greenhouse._id) !== ''" type="button" class="btn btn-default btn-xs" ng-click="deleteUserGreenHouse(data.user._id, greenhouse._id)">
+                <i class="glyphicon glyphicon-check"></i>
+              </button>
+            </td>
+          </tr>
+           <tr ng-show="loader">
+            <td colspan="3" class="text-center">Carregando</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

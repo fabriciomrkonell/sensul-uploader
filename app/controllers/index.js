@@ -25,6 +25,13 @@
 
 		$scope.clear();
 
+
+		$http.get(Constant.url.UserGreenHouse).success(function(data){
+			$rootScope.options.meusergreenhouses = data.data;
+		}).error(function(error){
+			alert(error);
+		});
+
 		if($rootScope.options.growers.length === 0){
 			$http.get(Constant.url.Grower).success(function(data){
 				$rootScope.options.growers = data.data;
@@ -41,13 +48,12 @@
 			});
 		}
 
-		if($rootScope.options.uploads.length === 0){
-			$http.get(Constant.url.Upload).success(function(data){
-				$rootScope.options.uploads = data.data;
-			}).error(function(error){
-				alert(error);
-			});
-		}
+
+		$http.get(Constant.url.Upload).success(function(data){
+			$rootScope.options.uploads = data.data;
+		}).error(function(error){
+			alert(error);
+		});
 
 		$scope.sendUpload = function(){
 			if($scope.validForm()) return false;
@@ -58,7 +64,7 @@
         },
         success: function(data) {
         	data = JSON.parse(data);
-					data.data.greenhouse = $scope.data.greenhouse;
+					data.data.greenhouse = $scope.data.greenhouse.greenhouse;
 					$rootScope.options.uploads.push(data.data);
           $scope.clear();
         }

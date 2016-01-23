@@ -4,6 +4,10 @@ var express = require('express'),
 		router = express.Router(),
 		User = require('../models/user');
 
+router.get('/me', function(req, res, next) {
+	res.send({ error: false, message: 'User: success.', data: req.user });
+});
+
 router.get('/', function(req, res, next) {
 	User.find(function(err, data) {
     if (err) throw console.log({ error: true, message: 'User: error.', data: err });

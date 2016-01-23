@@ -8,6 +8,7 @@ var express = require('express'),
     route_upload = require('./routes/upload'),
     route_greenhouse = require('./routes/greenhouse'),
     route_user = require('./routes/user'),
+    route_usergreenhouse = require('./routes/usergreenhouse'),
     googleDrive = require('./credentials/google'),
     passport = require('passport'),
     Strategy = require('passport-local').Strategy,
@@ -88,6 +89,7 @@ app.use('/grower', require('connect-ensure-login').ensureLoggedIn(), route_growe
 app.use('/greenhouse', require('connect-ensure-login').ensureLoggedIn(), route_greenhouse);
 app.use('/upload', require('connect-ensure-login').ensureLoggedIn(), route_upload);
 app.use('/user', require('connect-ensure-login').ensureLoggedIn(), route_user);
+app.use('/usergreenhouse', require('connect-ensure-login').ensureLoggedIn(), route_usergreenhouse);
 
 app.use(function(req, res, next) {
   var err = new Error('Não encontrado!');
