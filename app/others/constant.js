@@ -8,9 +8,21 @@
 			Grower: '/grower',
 			GreenHouse: '/greenhouse',
 			Upload: '/upload',
-			UserGreenHouse: '/usergreenhouse'
+			UserGreenHouse: '/usergreenhouse',
+			Sensor: '/sensor',
+			Collect: '/collect'
 		},
 		options: {
+			Status: [{
+				id: 1,
+				name: 'Upload'
+			}, {
+				id: 2,
+				name: 'Processando'
+			}, {
+				id: 3,
+				name: 'Finalizado'
+			}],
 			Users: [{
 				id: 1,
 				name: 'Administrador'

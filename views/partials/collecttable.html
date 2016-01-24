@@ -1,0 +1,22 @@
+<div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-responsive table-condensed table-bordered">
+        <thead>
+          <tr>
+            <th>Sensor</th>
+            <th>Upload</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="collect in data">
+            <td>{{collect.sensor.description}}</td>
+            <td>{{collect.upload.name}}</td>
+            <td>{{collect.value}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

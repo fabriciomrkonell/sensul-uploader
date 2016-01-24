@@ -1,0 +1,33 @@
+<div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-responsive table-condensed table-bordered">
+        <thead>
+          <tr>
+            <th>Abrigo</th>
+            <th>Produtor</th>
+            <th>Arquivo</th>
+            <th>Status</th>
+            <th width='80' class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="upload in options.uploads">
+            <td>{{upload.greenhouse.name}}</td>
+            <td>{{getGrower(upload.greenhouse.grower).name}}</td>
+            <td>{{getUploadStatus(upload.status).name}}</td>
+            <td><a href="{{upload.path}}" target="_blank">{{upload.name}}</a></td>
+            <td width='80' class="text-center">
+              <button type="button" class="btn btn-default btn-xs" ng-click="deleteUpload(upload, $index)">
+                <i class="glyphicon glyphicon-remove"></i>
+              </button>
+               <button ng-show="upload.status === 1" type="button" class="btn btn-default btn-xs" ng-click="process(upload, $index)">
+                <i class="glyphicon glyphicon-fire"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

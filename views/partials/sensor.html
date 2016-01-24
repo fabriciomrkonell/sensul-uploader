@@ -1,0 +1,43 @@
+<div>
+  <div class="row">
+    <div class="col-sm-4">
+      <form>
+        <div class="form-group">
+          <label>Nome</label>
+          <input type="text" class="form-control" placeholder="Nome" ng-model="data.name" ng-disabled="data._id !== null">
+        </div>
+        <div class="form-group">
+          <label>Descrição</label>
+          <input type="text" class="form-control" placeholder="Descrição" ng-model="data.description">
+        </div>
+        <button type="button" class="btn btn-default" ng-click="saveSensor(data)">Salvar</button>
+        <button type="button" class="btn btn-default" ng-click="clear()">Limpar</button>
+      </form>
+    </div>
+    <div class="col-sm-8">
+      <table class="table table-responsive table-condensed table-bordered">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th width='80' class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="sensor in options.sensors">
+            <td>{{sensor.name}}</td>
+            <td>{{sensor.description}}</td>
+            <td width='80' class="text-center">
+              <button type="button" class="btn btn-default btn-xs" ng-click="editSensor(sensor)">
+                <i class="glyphicon glyphicon-pencil"></i>
+              </button>
+              <button type="button" class="btn btn-default btn-xs" ng-click="deleteSensor(sensor, $index)">
+                <i class="glyphicon glyphicon-remove"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

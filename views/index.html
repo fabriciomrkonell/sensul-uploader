@@ -26,9 +26,22 @@
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <li><a href="/#index" ng-if="hasAccess([1, 2])">Home</a></li>
-          <li><a href="/#grower" ng-if="hasAccess([1])">Produtores</a></li>
-          <li><a href="/#greenhouse" ng-if="hasAccess([1])">Abrigos</a></li>
-          <li><a href="/#user" ng-if="hasAccess([1])">Usuários</a></li>
+          <li><a href="/#upload" ng-if="hasAccess([1, 2])">Uploads</a></li>
+          <li class="dropdown" ng-if="hasAccess([1])">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dados <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/#collecttable">Tabela</a></li>
+            </ul>
+          </li>
+          <li class="dropdown" ng-if="hasAccess([1])">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastro <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/#sensor">Sensores</a></li>
+              <li><a href="/#grower">Produtores</a></li>
+              <li><a href="/#greenhouse">Abrigos</a></li>
+              <li><a href="/#user">Usuários</a></li>
+            </ul>
+          </li>
           <li class="dropdown" ng-if="hasAccess([1])">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Associação <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -60,6 +73,9 @@
     <script src="app/controllers/greenhouse.js"></script>
     <script src="app/controllers/user.js"></script>
     <script src="app/controllers/usergreenhouse.js"></script>
+    <script src="app/controllers/upload.js"></script>
+    <script src="app/controllers/sensor.js"></script>
+    <script src="app/controllers/collecttable.js"></script>
     <script src="app/others/config.js"></script>
     <script src="app/others/constant.js"></script>
   </body>

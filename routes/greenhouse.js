@@ -3,6 +3,7 @@
 var express = require('express'),
 		router = express.Router(),
 		GreenHouse = require('../models/greenhouse'),
+		UserGreenHouse = require('../models/usergreenhouse'),
 		Upload = require('../models/upload');
 
 router.get('/', function(req, res, next) {
@@ -34,7 +35,7 @@ router.delete('/:id', function(req, res, next) {
 			GreenHouse.remove({
 		  	_id: req.param('id')
 		  }, function(err, data) {
-		  	Upload.remove({ greenhouse: req.param('id') }).exec();
+		  	UserGreenHouse.remove({ greenhouse: req.param('id') }).exec();
 		    if (err) throw console.log({ error: true, message: 'GreenHouse: error.', data: err });
 			  res.send({ error: false, message: 'GreenHouse: success.', data: data });
 		  });

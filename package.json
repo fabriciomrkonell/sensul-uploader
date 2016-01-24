@@ -27,6 +27,7 @@
     "bcrypt-nodejs": "latest",
     "cors": "^2.5.2",
     "connect-ensure-login": "^0.1.1",
-    "ejs": "^2.3.3"
+    "ejs": "^2.3.3",
+    "csvtojson": "^0.5.1"
   }
 }

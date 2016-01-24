@@ -15,11 +15,13 @@ angular.module('Sensul').run(['$rootScope', 'Constant', '$http', function($rootS
 		options: {
 			meusergreenhouses: [],
 			usergreenhouses: [],
+			status: Constant.options.Status,
 			types: Constant.options.Users,
 			users: [],
 			greenhouses: [],
 			growers: [],
-			uploads: []
+			uploads: [],
+			sensors: []
 		}
 	});
 
@@ -56,6 +58,15 @@ angular.module('Sensul').run(['$rootScope', 'Constant', '$http', function($rootS
 		var exit = {};
 		$rootScope.options.types.forEach(function(item){
 			if(item.id === type) exit = item;
+		});
+		return exit;
+	};
+
+	$rootScope.getUploadStatus = function(status){
+		if(status === undefined) return {};
+		var exit = {};
+		$rootScope.options.status.forEach(function(item){
+			if(item.id === status) exit = item;
 		});
 		return exit;
 	};
