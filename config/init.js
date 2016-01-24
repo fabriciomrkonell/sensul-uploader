@@ -1,6 +1,7 @@
 'use strict';
 
-var User = require('../models/user');
+var User = require('../models/user'),
+    Collect = require('../models/collect');
 
 exports.initialize = function() {
   User.find({
@@ -17,4 +18,6 @@ exports.initialize = function() {
       user.save();
     }
   });
+
+  //Collect.remove().exec();
 }

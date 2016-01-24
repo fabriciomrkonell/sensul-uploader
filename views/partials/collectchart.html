@@ -17,24 +17,11 @@
           </div>
         </div>
       </div>
-      <table class="table table-responsive table-condensed table-bordered">
-        <thead>
-          <tr>
-            <th>Sensor</th>
-            <th>Upload</th>
-            <th>Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="collect in data.options">
-            <td>{{collect.sensor.description}}</td>
-            <td>{{collect.upload.name}}</td>
-            <td>{{collect.value}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="text-center">
-        <button type="button" class="btn btn-default" ng-click="search(filter.page + 1)" ng-show="filter.page < data.pages">Carregar mais 50</button>
+      <div class="panel panel-default">
+        <div class="panel-heading">Gráfico</div>
+        <div class="panel-body panel-body-chart">
+          <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        </div>
       </div>
     </div>
   </div>

@@ -25,3 +25,7 @@
   margin-bottom: 10px;
   position: fixed;
 }
+
+.panel-body-chart{
+	padding-bottom: 0px;
+}

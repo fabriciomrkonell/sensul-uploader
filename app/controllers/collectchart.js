@@ -2,16 +2,16 @@
 
 	'use strict';
 
-	angular.module('Sensul.controllers').controller('collecttableCtrl', collecttableCtrl);
+	angular.module('Sensul.controllers').controller('collectchartCtrl', collectchartCtrl);
 
-	collecttableCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
+	collectchartCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
 
-	function collecttableCtrl($scope, $http, Constant, $rootScope) {
+	function collectchartCtrl($scope, $http, Constant, $rootScope) {
 
 		angular.extend($scope, {
 			filter: {
 				page: 0,
-				chart: false
+				chart: true
 			},
 			data: {
 				options: [],
@@ -52,6 +52,33 @@
 				alert(error);
 			});
 		};
+
+
+    $('#container').highcharts({
+      chart: {
+        type: 'line'
+      },
+      exporting: {
+      	enabled: false
+      },
+      title: {
+         text: ''
+      },
+      xAxis: {
+        type: 'datetime'
+      },
+      yAxis: {
+	      title: {
+	        text: ''
+	      }
+      },
+      series: [{
+        name: 'Temperatura',
+        data: [[1370131200000, 7.0], [1370217600000, 72.0], [1370304000000, 8.0]]
+      }]
+    });
+
+		jQuery("[text-anchor='end'][zIndex=8]").css('display', 'none');
 
   }
 

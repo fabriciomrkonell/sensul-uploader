@@ -28,6 +28,9 @@
     }).when('/collecttable', {
       templateUrl: 'partials/collecttable.html',
       controller: 'collecttableCtrl'
+    }).when('/collectchart', {
+      templateUrl: 'partials/collectchart.html',
+      controller: 'collectchartCtrl'
     }).otherwise('/index');
 
   }]);
