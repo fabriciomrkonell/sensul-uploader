@@ -20,13 +20,11 @@
 			}
 		});
 
-		if($rootScope.options.meusergreenhouses.length === 0){
-			$http.get(Constant.url.UserGreenHouse).success(function(data){
-				$rootScope.options.meusergreenhouses = data.data;
-			}).error(function(error){
-				alert(error);
-			});
-		}
+		$http.get(Constant.url.UserGreenHouse).success(function(data){
+			$rootScope.options.meusergreenhouses = data.data;
+		}).error(function(error){
+			alert(error);
+		});
 
 		if($rootScope.options.growers.length === 0){
 			$http.get(Constant.url.Grower).success(function(data){

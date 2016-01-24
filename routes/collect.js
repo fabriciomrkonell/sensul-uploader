@@ -5,8 +5,22 @@ var express = require('express'),
 		Collect = require('../models/collect');
 
 function transformChart(data){
-	var exit = [];
-	return exit;
+	var array_exit = [],
+			object_exit = {};
+
+	data.forEach(function(item){
+		if(object_exit[item.sensor.description] === undefined) object_exit[item.sensor.description] = [];
+		object_exit[item.sensor.description].push([new Date(item.created_at).getTime(), parseFloat(item.value)]);
+	});
+
+	for(var index in object_exit) {
+		array_exit.push({
+			name: index,
+			data: object_exit[index]
+		});
+	}
+
+	return array_exit;
 };
 
 router.post('/', function(req, res, next) {

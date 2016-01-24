@@ -88,7 +88,7 @@ router.post('/process/:upload', function(req, res, next){
 			 			object_collect.sensor = object_sensors[item.val.split(';')[_key]]._id;
 			 			object_collect.upload = upload._id;
 			 			object_collect.greenhouse = upload.greenhouse;
-			 			object_collect.created_at = new Date();
+			 			object_collect.created_at = new Date(item.val.split(';')[_date]);
 			 			object_collect.save();
 			 		});
 
