@@ -108,6 +108,7 @@ router.delete('/:id', function(req, res, next) {
 	  }, function(err, data) {
 	    if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
 	    fs.unlinkSync('./' + upload.path);
+			Collect.remove({ upload: req.param('id') }).exec();
 		  res.send({ error: false, message: 'Upload: success.', data: data });
 	  });
 	});

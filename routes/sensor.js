@@ -2,6 +2,7 @@
 
 var express = require('express'),
 		router = express.Router(),
+		Collect = require('../models/collect'),
 		Sensor = require('../models/sensor');
 
 router.get('/', function(req, res, next) {
@@ -32,6 +33,7 @@ router.delete('/:id', function(req, res, next) {
   	_id: req.param('id')
   }, function(err, data) {
     if (err) throw console.log({ error: true, message: 'Sensor: error.', data: err });
+    Collect.remove({ sensor: req.param('id') }).exec();
 	  res.send({ error: false, message: 'Sensor: success.', data: data });
   });
 });

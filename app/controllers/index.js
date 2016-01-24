@@ -47,7 +47,7 @@
           alert(error);
         },
         success: function(data) {
-        	alert('Upload realizado com sucesso!');
+        	window.location.href = "#/upload";
           $scope.clear();
         }
       });

@@ -1,6 +1,22 @@
 <div>
   <div class="row">
     <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">Filtros</div>
+        <div class="panel-body">
+          <div class="col-sm-4">
+            <form>
+              <div class="form-group">
+                <label>Abrigo</label>
+                 <select class="form-control" ng-options="(meusergreenhouse.greenhouse.name + ' - ' + getGrower(meusergreenhouse.greenhouse.grower).name) for meusergreenhouse in options.meusergreenhouses" ng-model="data.greenhouse">
+                  <option value="">Todos</option>
+                 </select>
+              </div>
+              <button type="button" class="btn btn-default" ng-click="search(0)">Buscar</button>
+            </form>
+          </div>
+        </div>
+      </div>
       <table class="table table-responsive table-condensed table-bordered">
         <thead>
           <tr>
@@ -10,13 +26,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="collect in data">
+          <tr ng-repeat="collect in data.options">
             <td>{{collect.sensor.description}}</td>
             <td>{{collect.upload.name}}</td>
             <td>{{collect.value}}</td>
           </tr>
         </tbody>
       </table>
+      <div class="text-center">
+        <button type="button" class="btn btn-default" ng-click="search(data.page + 1)" ng-show="data.page < data.pages">Carregar mais 50</button>
+      </div>
     </div>
   </div>
 </div>
+<br/>

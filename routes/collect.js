@@ -4,10 +4,19 @@ var express = require('express'),
 		router = express.Router(),
 		Collect = require('../models/collect');
 
-router.get('/', function(req, res, next) {
-	Collect.find().populate('sensor upload').exec(function(err, data) {
+router.post('/', function(req, res, next) {
+	var perpage = 50,
+			exit = {},
+			page = Math.max(0, req.body.page);
+
+	Collect.find().limit(perpage).skip(perpage * page).populate('sensor upload').exec(function(err, data) {
     if (err) throw console.log({ error: true, message: 'Collect: error.', data: err });
-  	res.send({ error: false, message: 'Collect: success.', data: data });
+    Collect.count().exec(function(err, count) {
+    	exit.data = data;
+	    exit.page = page;
+	    exit.pages = Math.round(count / perpage);
+	  	res.send({ error: false, message: 'Collect: success.', data: exit });
+    });
   });
 });
 
