@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	angular.module('Sensul.controllers').controller('collecttableCtrl', collecttableCtrl);
+	angular.module('Sensul.controllers').registerCtrl('collecttableCtrl', collecttableCtrl);
 
 	collecttableCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
 

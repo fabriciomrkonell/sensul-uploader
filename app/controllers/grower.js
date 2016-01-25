@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	angular.module('Sensul.controllers').controller('growerCtrl', growerCtrl);
+	angular.module('Sensul.controllers').registerCtrl('growerCtrl', growerCtrl);
 
 	growerCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
 

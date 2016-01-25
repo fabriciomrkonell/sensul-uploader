@@ -16,7 +16,11 @@ router.get('/:user', function(req, res, next) {
 router.get('/', function(req, res, next) {
 	UserGreenHouse.find({
 		user: req.user._id
-	}).populate('greenhouse').exec(function(err, data) {
+	}).populate('greenhouse').populate({
+    path: 'greenhouse',
+    populate: { path: 'grower',
+    model: 'Grower' }
+  }).exec(function(err, data) {
     if (err) throw console.log({ error: true, message: 'UserGreenHouse: error.', data: err });
   	res.send({ error: false, message: 'UserGreenHouse: success.', data: data });
   });

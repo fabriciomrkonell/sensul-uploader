@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	angular.module('Sensul.controllers').controller('userCtrl', userCtrl);
+	angular.module('Sensul.controllers').registerCtrl('userCtrl', userCtrl);
 
 	userCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
 

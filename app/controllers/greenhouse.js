@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	angular.module('Sensul.controllers').controller('greenhouseCtrl', greenhouseCtrl);
+	angular.module('Sensul.controllers').registerCtrl('greenhouseCtrl', greenhouseCtrl);
 
 	greenhouseCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
 

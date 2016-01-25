@@ -1,10 +1,10 @@
-<div>
+<div ng-controller="indexCtrl">
   <div class="row">
     <div class="col-sm-4">
       <form id="formUpload" method="post" action="/upload" enctype="multipart/form-data">
         <div class="form-group">
           <label>Abrigo</label>
-            <select class="form-control" ng-options="(meusergreenhouse.greenhouse.name + ' - ' + getGrower(meusergreenhouse.greenhouse.grower).name) for meusergreenhouse in options.meusergreenhouses" ng-model="data.greenhouse">
+            <select class="form-control" ng-options="(meusergreenhouse.greenhouse.name + ' - ' + meusergreenhouse.greenhouse.grower.name) for meusergreenhouse in options.meusergreenhouses" ng-model="data.greenhouse">
             <option value="">Selecione</option>
            </select>
            <input class="form-control" value="{{data.greenhouse.greenhouse._id}}" ng-show="false" name="greenhouse" />

@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	angular.module('Sensul.controllers').controller('indexCtrl', indexCtrl);
+	angular.module('Sensul.controllers').registerCtrl('indexCtrl', indexCtrl);
 
 	indexCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
 
@@ -27,17 +27,10 @@
 
 		$http.get(Constant.url.UserGreenHouse).success(function(data){
 			$rootScope.options.meusergreenhouses = data.data;
+			$rootScope.loader.status = false;
 		}).error(function(error){
 			alert(error);
 		});
-
-		if($rootScope.options.growers.length === 0){
-			$http.get(Constant.url.Grower).success(function(data){
-				$rootScope.options.growers = data.data;
-			}).error(function(error){
-				alert(error);
-			});
-		}
 
 		$scope.sendUpload = function(){
 			if($scope.validForm()) return false;

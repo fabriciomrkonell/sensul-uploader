@@ -63,23 +63,22 @@
     <div class="container container-view">
       <ng-view></ng-view>
     </div>
+    <div class="app-loading">
+      <div class="animated-container" ng-class="{ 'app-loader-hide': loader.status === false }">
+        <div class="messaging">
+          <h1>{{loader.message}}</h1>
+          <p>{{loader.submessage}}</p>
+        </div>
+      </div>
+    </div>
     <script src="app/libraries/angularjs/js/angular.min.js"></script>
     <script src="app/libraries/angularjs/js/angular-route.min.js"></script>
     <script src="app/libraries/jquery/js/jquery.min.js"></script>
-    <script src="app/libraries/jquery/js/jquery-form.js"></script>
     <script src="app/libraries/bootstrap/js/bootstrap.min.js"></script>
-    <script src="app/libraries/highcharts/js/highcharts.min.js"></script>
     <script src="app/app.js"></script>
-    <script src="app/controllers/index.js"></script>
-    <script src="app/controllers/grower.js"></script>
-    <script src="app/controllers/greenhouse.js"></script>
-    <script src="app/controllers/user.js"></script>
-    <script src="app/controllers/usergreenhouse.js"></script>
-    <script src="app/controllers/upload.js"></script>
-    <script src="app/controllers/sensor.js"></script>
-    <script src="app/controllers/collecttable.js"></script>
-    <script src="app/controllers/collectchart.js"></script>
+    <script src="app/others/script.js"></script>
     <script src="app/others/config.js"></script>
     <script src="app/others/constant.js"></script>
+
   </body>
 </html>

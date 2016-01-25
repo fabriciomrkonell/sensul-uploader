@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	angular.module('Sensul.controllers').controller('uploadCtrl', uploadCtrl);
+	angular.module('Sensul.controllers').registerCtrl('uploadCtrl', uploadCtrl);
 
 	uploadCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
 

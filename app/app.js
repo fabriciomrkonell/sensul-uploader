@@ -12,6 +12,11 @@ angular.module('Sensul').run(['$rootScope', 'Constant', '$http', function($rootS
 
 	angular.extend($rootScope, {
 		me: {},
+		loader: {
+			status: true,
+			message: 'Carregando Informações',
+			submessage: 'Aguarde enquanto o sistema está iniciando'
+		},
 		options: {
 			meusergreenhouses: [],
 			usergreenhouses: [],
@@ -31,26 +36,6 @@ angular.module('Sensul').run(['$rootScope', 'Constant', '$http', function($rootS
 
 	$rootScope.hasAccess = function(values){
 		return jQuery.inArray($rootScope.me.type, values) !== -1;
-	};
-
-	$rootScope.getGrower = function(data){
-		if(data === undefined) return {};
-		var exit = {};
-		$rootScope.options.growers.forEach(function(item){
-			if(item._id === data._id) exit = item;
-			if(item._id === data) exit = item;
-		});
-		return exit;
-	};
-
-	$rootScope.getGreenhouse = function(data){
-		if(data === undefined) return {};
-		var exit = {};
-		$rootScope.options.greenhouses.forEach(function(item){
-			if(item._id === data._id) exit = item;
-			if(item._id === data) exit = item;
-		});
-		return exit;
 	};
 
 	$rootScope.getUserType = function(type){
