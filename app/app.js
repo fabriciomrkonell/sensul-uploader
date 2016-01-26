@@ -6,16 +6,22 @@ angular.module('Sensul.config', ['ngRoute']);
 
 angular.module('Sensul.constant', []);
 
-angular.module('Sensul', ['Sensul.controllers', 'Sensul.config', 'Sensul.constant']);
+angular.module('Sensul.services', []);
 
-angular.module('Sensul').run(['$rootScope', 'Constant', '$http', function($rootScope, Constant, $http){
+angular.module('Sensul', ['Sensul.controllers', 'Sensul.config', 'Sensul.constant', 'Sensul.services']);
+
+angular.module('Sensul').run(['$rootScope', 'Constant', '$http', 'Util', function($rootScope, Constant, $http, Util){
 
 	angular.extend($rootScope, {
 		me: {},
 		loader: {
+			type: 2,
+			// 1 = Message
+			// 2 = Loader
+			// 3 = Confirm
 			status: true,
 			message: 'Carregando Informações',
-			submessage: 'Aguarde enquanto o sistema está iniciando'
+			submessage: 'O sistema está iniciando'
 		},
 		options: {
 			meusergreenhouses: [],
@@ -54,6 +60,18 @@ angular.module('Sensul').run(['$rootScope', 'Constant', '$http', function($rootS
 			if(item.id === status) exit = item;
 		});
 		return exit;
+	};
+
+	$rootScope.eventOkButton = function(){
+		Util.hideLoader();
+	};
+
+	$rootScope.eventSimButton = function(){
+		Util.hideLoader();
+	};
+
+	$rootScope.eventCancelarButton = function(){
+		Util.hideLoader();
 	};
 
 }]);

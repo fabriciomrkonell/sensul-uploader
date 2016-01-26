@@ -10,7 +10,6 @@ var Collect = mongoose.model('Collect', new Schema({
   // 2 - Double
   sensor: { type: Schema.ObjectId, ref: 'Sensor'},
   upload: { type: Schema.ObjectId, ref: 'Upload'},
- 	greenhouse: { type: Schema.ObjectId, ref: 'GreenHouse'},
   created_at: Date
 }));
 

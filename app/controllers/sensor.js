@@ -4,9 +4,26 @@
 
 	angular.module('Sensul.controllers').registerCtrl('sensorCtrl', sensorCtrl);
 
-	sensorCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
+	sensorCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope', 'Util'];
 
-	function sensorCtrl($scope, $http, Constant, $rootScope) {
+	function sensorCtrl($scope, $http, Constant, $rootScope, Util) {
+
+		var item = null, index = null;
+
+		Util.showLoader('Carregando Informações', 'Aguarde enquando a página é carregada');
+
+		$rootScope.eventOkButton = function(){
+			Util.hideLoader();
+		};
+
+		$rootScope.eventSimButton = function(){
+			$http.delete(Constant.url.Sensor + '/' + item._id).success(function(data){
+				$rootScope.options.sensors.splice(index, 1);
+				Util.showLoaderInfo('Sensor Deletado', 'O sensor foi deletado com sucesso');
+			}).error(function(error){
+				alert(error);
+			});
+		};
 
 		angular.extend($scope, {
 			data: {}
@@ -22,16 +39,17 @@
 
 		$scope.clear();
 
-		if($rootScope.options.sensors.length === 0){
-			$http.get(Constant.url.Sensor).success(function(data){
-				$rootScope.options.sensors = data.data;
-			}).error(function(error){
-				alert(error);
-			});
-		}
+
+		$http.get(Constant.url.Sensor).success(function(data){
+			$rootScope.options.sensors = data.data;
+			Util.hideLoader();
+		}).error(function(error){
+			alert(error);
+		});
 
 		$scope.saveSensor = function(item){
 			if($scope.validForm()) return false;
+			Util.showLoader('Salvando Sensor', 'Aguarde enquando o sensor é salvo');
 			$http.post(Constant.url.Sensor, item).success(function(data){
 				if(item._id == null){
 					$rootScope.options.sensors.push(data.data);
@@ -44,6 +62,7 @@
 					});
 				}
 				$scope.clear();
+				Util.hideLoader();
 			}).error(function(error){
 				alert(error);
 			});
@@ -53,16 +72,10 @@
 			angular.copy(item, $scope.data)	;
 		};
 
-		$scope.deleteSensor = function(item, index){
-			$http.delete(Constant.url.Sensor + '/' + item._id).success(function(data){
-				if(data.error){
-					alert(data.message);
-				}else{
-					$rootScope.options.sensors.splice(index, 1);
-				}
-			}).error(function(error){
-				alert(error);
-			});
+		$scope.deleteSensor = function(_item, _index){
+			item = _item;
+			index = _index;
+			Util.showLoaderConfirm('Deletar Sensor?', 'Deseja realmente excluir o sensor?');
 		};
 
 		$scope.validForm = function(){

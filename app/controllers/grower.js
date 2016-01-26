@@ -4,9 +4,30 @@
 
 	angular.module('Sensul.controllers').registerCtrl('growerCtrl', growerCtrl);
 
-	growerCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
+	growerCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope', 'Util'];
 
-	function growerCtrl($scope, $http, Constant, $rootScope) {
+	function growerCtrl($scope, $http, Constant, $rootScope, Util) {
+
+		var item = null, index = null;
+
+		Util.showLoader('Carregando Informações', 'Aguarde enquando a página é carregada');
+
+		$rootScope.eventOkButton = function(){
+			Util.hideLoader();
+		};
+
+		$rootScope.eventSimButton = function(){
+			$http.delete(Constant.url.Grower + '/' + item._id).success(function(data){
+				if(data.error){
+					Util.showLoaderInfo('Produtor Nāo Deletado', data.message);
+				}else{
+					$rootScope.options.growers.splice(index, 1);
+					Util.showLoaderInfo('Produtor Deletado', 'O produtor foi deletado com sucesso');
+				}
+			}).error(function(error){
+				alert(error);
+			});
+		};
 
 		angular.extend($scope, {
 			data: {}
@@ -22,16 +43,16 @@
 
 		$scope.clear();
 
-		if($rootScope.options.growers.length === 0){
-			$http.get(Constant.url.Grower).success(function(data){
-				$rootScope.options.growers = data.data;
-			}).error(function(error){
-				alert(error);
-			});
-		}
+		$http.get(Constant.url.Grower).success(function(data){
+			$rootScope.options.growers = data.data;
+			Util.hideLoader();
+		}).error(function(error){
+			alert(error);
+		});
 
 		$scope.saveGrower = function(item){
 			if($scope.validForm()) return false;
+			Util.showLoader('Processando Informações', 'Aguarde enquando o produtor é salvo');
 			$http.post(Constant.url.Grower, item).success(function(data){
 				if(item._id == null){
 					$rootScope.options.growers.push(data.data);
@@ -44,6 +65,7 @@
 					});
 				}
 				$scope.clear();
+				Util.hideLoader();
 			}).error(function(error){
 				alert(error);
 			});
@@ -53,22 +75,10 @@
 			angular.copy(item, $scope.data)	;
 		};
 
-		$scope.deleteGrower = function(item, index){
-			$http.delete(Constant.url.Grower + '/' + item._id).success(function(data){
-				if(data.error){
-					alert(data.message);
-				}else{
-					$rootScope.options.growers.splice(index, 1);
-					for(var i = 0; i < $rootScope.options.greenhouses.length; i++){
-						if($rootScope.options.greenhouses[i].growers._id === item._id){
-							$rootScope.options.greenhouses.splice(i, 1);
-							i--;
-						}
-					};
-				}
-			}).error(function(error){
-				alert(error);
-			});
+		$scope.deleteGrower = function(_item, _index){
+			item = _item;
+			index = _index;
+			Util.showLoaderConfirm('Deletar Produtor?', 'Deseja realmente excluir o produtor?');
 		};
 
 		$scope.validForm = function(){

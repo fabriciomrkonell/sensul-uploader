@@ -8,7 +8,7 @@
             <form>
               <div class="form-group">
                 <label>Abrigo</label>
-                 <select class="form-control" ng-options="(meusergreenhouse.greenhouse.name + ' - ' + getGrower(meusergreenhouse.greenhouse.grower).name) for meusergreenhouse in options.meusergreenhouses" ng-model="data.greenhouse">
+                 <select class="form-control" ng-options="(meusergreenhouse.greenhouse.name + ' - ' + meusergreenhouse.greenhouse.grower.name) for meusergreenhouse in options.meusergreenhouses" ng-model="data.greenhouse">
                   <option value="">Todos</option>
                  </select>
               </div>

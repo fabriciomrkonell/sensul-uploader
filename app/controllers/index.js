@@ -4,9 +4,15 @@
 
 	angular.module('Sensul.controllers').registerCtrl('indexCtrl', indexCtrl);
 
-	indexCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
+	indexCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope', 'Util'];
 
-	function indexCtrl($scope, $http, Constant, $rootScope) {
+	function indexCtrl($scope, $http, Constant, $rootScope, Util) {
+
+		Util.showLoader('Carregando Informações', 'Aguarde enquando a página é carregada');
+
+		$rootScope.eventOkButton = function(){
+			window.location.href = '/#/upload';
+		};
 
 		angular.extend($scope, {
 			data: {}
@@ -27,20 +33,21 @@
 
 		$http.get(Constant.url.UserGreenHouse).success(function(data){
 			$rootScope.options.meusergreenhouses = data.data;
-			$rootScope.loader.status = false;
+			Util.hideLoader();
 		}).error(function(error){
 			alert(error);
 		});
 
 		$scope.sendUpload = function(){
 			if($scope.validForm()) return false;
+			Util.showLoader('Enviando Arquivo', 'Aguarde enquanto o arquivo é enviado');
       $('#formUpload').ajaxSubmit({
         dataType: 'text',
         error: function(error) {
           alert(error);
         },
         success: function(data) {
-        	window.location.href = "#/upload";
+        	Util.showLoaderInfo('Arquivo Enviado', 'O arquivo foi enviado com sucesso');
           $scope.clear();
         }
       });

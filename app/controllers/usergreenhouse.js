@@ -4,53 +4,39 @@
 
 	angular.module('Sensul.controllers').registerCtrl('usergreenhouseCtrl', usergreenhouseCtrl);
 
-	usergreenhouseCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
+	usergreenhouseCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope', 'Util'];
 
-	function usergreenhouseCtrl($scope, $http, Constant, $rootScope) {
+	function usergreenhouseCtrl($scope, $http, Constant, $rootScope, Util) {
+
+		Util.showLoader('Carregando Informações', 'Aguarde enquando a página é carregada');
 
 		angular.extend($scope, {
-			data: {},
-			loader: true
+			data: {}
 		});
 
 		$scope.search = function(user){
-			$scope.loader = true;
+			Util.showLoader('Carregando Informações', 'Aguarde enquanto os dados sāo carregados');
 			$http.get(Constant.url.UserGreenHouse + '/' + user).success(function(data){
 				$rootScope.options.usergreenhouses = data.data;
-				$scope.loader = false;
+				Util.hideLoader();
 			}).error(function(error){
 				alert(error);
 			});
 		};
 
-		if($rootScope.options.users.length === 0){
-			$http.get(Constant.url.User).success(function(data){
-				$rootScope.options.users = data.data;
-				$scope.data.user = data.data[0];
-				$scope.search($scope.data.user._id);
-			}).error(function(error){
-				alert(error);
-			});
-		}else{
-				$scope.data.user = $rootScope.options.users[0];
-				$scope.search($scope.data.user._id);
-		}
+		$http.get(Constant.url.User).success(function(data){
+			$rootScope.options.users = data.data;
+			$scope.data.user = data.data[0];
+			$scope.search($scope.data.user._id);
+		}).error(function(error){
+			alert(error);
+		});
 
-		if($rootScope.options.greenhouses.length === 0){
-			$http.get(Constant.url.GreenHouse).success(function(data){
-				$rootScope.options.greenhouses = data.data;
-			}).error(function(error){
-				alert(error);
-			});
-		}
-
-		if($rootScope.options.growers.length === 0){
-			$http.get(Constant.url.Grower).success(function(data){
-				$rootScope.options.growers = data.data;
-			}).error(function(error){
-				alert(error);
-			});
-		}
+		$http.get(Constant.url.GreenHouse).success(function(data){
+			$rootScope.options.greenhouses = data.data;
+		}).error(function(error){
+			alert(error);
+		})
 
 		$scope.hasChecked = function(user, greenhouse){
 			var exit = '';

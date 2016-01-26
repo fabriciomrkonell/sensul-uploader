@@ -4,9 +4,30 @@
 
 	angular.module('Sensul.controllers').registerCtrl('userCtrl', userCtrl);
 
-	userCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
+	userCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope', 'Util'];
 
-	function userCtrl($scope, $http, Constant, $rootScope) {
+	function userCtrl($scope, $http, Constant, $rootScope, Util) {
+
+		var item = null, index = null;
+
+		Util.showLoader('Carregando Informações', 'Aguarde enquando a página é carregada');
+
+		$rootScope.eventOkButton = function(){
+			Util.hideLoader();
+		};
+
+		$rootScope.eventSimButton = function(){
+			$http.delete(Constant.url.User + '/' + item._id).success(function(data){
+				if(data.error){
+					Util.showLoaderInfo('Usuário Nāo Deletado', data.message);
+				}else{
+					$rootScope.options.users.splice(index, 1);
+					Util.showLoaderInfo('Usuário Deletado', 'O usuário foi deletado com sucesso');
+				}
+			}).error(function(error){
+				alert(error);
+			});
+		};
 
 		angular.extend($scope, {
 			data: {}
@@ -24,16 +45,16 @@
 
 		$scope.clear();
 
-		if($rootScope.options.users.length === 0){
-			$http.get(Constant.url.User).success(function(data){
-				$rootScope.options.users = data.data;
-			}).error(function(error){
-				alert(error);
-			});
-		}
+		$http.get(Constant.url.User).success(function(data){
+			$rootScope.options.users = data.data;
+			Util.hideLoader();
+		}).error(function(error){
+			alert(error);
+		});
 
 		$scope.saveUser = function(item){
 			if($scope.validForm()) return false;
+			Util.showLoader('Processando Informações', 'Aguarde enquando o usuário é salvo');
 			$http.post(Constant.url.User, item).success(function(data){
 				if(item._id == null){
 					$rootScope.options.users.push(data.data);
@@ -48,6 +69,7 @@
 					});
 				}
 				$scope.clear();
+				Util.hideLoader();
 			}).error(function(error){
 				alert(error);
 			});
@@ -58,16 +80,10 @@
 			$scope.data.type = $rootScope.getUserType(item.type);
 		};
 
-		$scope.deleteUser = function(item, index){
-			$http.delete(Constant.url.User + '/' + item._id).success(function(data){
-				if(data.error){
-					alert(data.message);
-				}else{
-					$rootScope.options.users.splice(index, 1);
-				}
-			}).error(function(error){
-				alert(error);
-			});
+		$scope.deleteUser = function(_item, _index){
+			item = _item;
+			index = _index;
+			Util.showLoaderConfirm('Deletar Usuário?', 'Deseja realmente excluir o usuário?');
 		};
 
 		$scope.validForm = function(){

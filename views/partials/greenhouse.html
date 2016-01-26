@@ -29,7 +29,7 @@
         <tbody>
           <tr ng-repeat="greenhouse in options.greenhouses">
             <td>{{greenhouse.name}}</td>
-            <td>{{getGrower(greenhouse.grower).name}}</td>
+            <td>{{greenhouse.grower.name}}</td>
             <td width='80' class="text-center">
               <button type="button" class="btn btn-default btn-xs" ng-click="editGreenHouse(greenhouse)">
                 <i class="glyphicon glyphicon-pencil"></i>

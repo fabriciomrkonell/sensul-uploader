@@ -1,6 +1,11 @@
 'use strict';
 
 var User = require('../models/user'),
+    UserGreenHouse = require('../models/usergreenhouse'),
+    GreenHouse = require('../models/greenhouse'),
+    Grower = require('../models/grower'),
+    Sensor = require('../models/sensor'),
+    Upload = require('../models/upload'),
     Collect = require('../models/collect');
 
 exports.initialize = function() {
@@ -19,5 +24,11 @@ exports.initialize = function() {
     }
   });
 
+  //User.remove().exec();
+  //UserGreenHouse.remove().exec();
+  //GreenHouse.remove().exec();
+  //Grower.remove().exec();
+  //Sensor.remove().exec();
+  //Upload.remove().exec();
   //Collect.remove().exec();
 }

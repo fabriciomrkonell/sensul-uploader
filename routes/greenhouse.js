@@ -7,7 +7,7 @@ var express = require('express'),
 		Upload = require('../models/upload');
 
 router.get('/', function(req, res, next) {
-	GreenHouse.find().exec(function(err, data) {
+	GreenHouse.find().populate('grower').exec(function(err, data) {
     if (err) throw console.log({ error: true, message: 'GreenHouse: error.', data: err });
   	res.send({ error: false, message: 'GreenHouse: success.', data: data });
   });

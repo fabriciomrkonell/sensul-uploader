@@ -68,6 +68,14 @@
         <div class="messaging">
           <h1>{{loader.message}}</h1>
           <p>{{loader.submessage}}</p>
+          <br/>
+          <div ng-show="loader.type == 1">
+            <button type="button" class="btn btn-default" ng-click="eventOkButton()">Ok</button>
+          </div>
+          <div ng-show="loader.type == 3">
+            <button type="button" class="btn btn-default" ng-click="eventSimButton()">Sim</button>
+            <button type="button" class="btn btn-default" ng-click="eventCancelarButton()">Cancelar</button>
+          </div>
         </div>
       </div>
     </div>
@@ -79,6 +87,6 @@
     <script src="app/others/script.js"></script>
     <script src="app/others/config.js"></script>
     <script src="app/others/constant.js"></script>
-
+    <script src="app/others/util.js"></script>
   </body>
 </html>

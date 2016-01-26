@@ -46,6 +46,7 @@ div.app-loading div.animated-container {
 }
 
 div.app-loading div.animated-container.app-loader-hide {
+	visibility: hidden;
 	opacity: 0;
 	transition: all linear 100ms ;
 		-webkit-transition: all linear 100ms ;

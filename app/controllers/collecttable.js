@@ -4,9 +4,11 @@
 
 	angular.module('Sensul.controllers').registerCtrl('collecttableCtrl', collecttableCtrl);
 
-	collecttableCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope'];
+	collecttableCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope', 'Util'];
 
-	function collecttableCtrl($scope, $http, Constant, $rootScope) {
+	function collecttableCtrl($scope, $http, Constant, $rootScope, Util) {
+
+		Util.showLoader('Carregando Informações', 'Aguarde enquando a página é carregada');
 
 		angular.extend($scope, {
 			filter: {
@@ -22,19 +24,13 @@
 
 		$http.get(Constant.url.UserGreenHouse).success(function(data){
 			$rootScope.options.meusergreenhouses = data.data;
+			Util.hideLoader();
 		}).error(function(error){
 			alert(error);
 		});
 
-		if($rootScope.options.growers.length === 0){
-			$http.get(Constant.url.Grower).success(function(data){
-				$rootScope.options.growers = data.data;
-			}).error(function(error){
-				alert(error);
-			});
-		}
-
 		$scope.search = function(page){
+			Util.showLoader('Carregando Informações', 'Aguarde enquando os dados sāo carregados');
 			if(page === 0){
 				$scope.filter.greenhouse = angular.isObject($scope.data.greenhouse) ? $scope.data.greenhouse.greenhouse._id : null;
 			}
@@ -46,6 +42,7 @@
 				}else{
 					$scope.data.options = $scope.data.options.concat(data.data.data);
 				}
+				Util.hideLoader();
 			}).error(function(error){
 				alert(error);
 			});

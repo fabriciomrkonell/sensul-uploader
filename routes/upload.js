@@ -29,7 +29,11 @@ router.get('/', function(req, res, next) {
 		});
     Upload.find({
 			$or: search
-		}).populate('greenhouse').exec(function(err, data) {
+		}).populate('greenhouse').populate({
+	    path: 'greenhouse',
+	    populate: { path: 'grower',
+	    model: 'Grower' }
+	  }).exec(function(err, data) {
 	    if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
 	  	res.send({ error: false, message: 'Upload: success.', data: data });
 	  });
@@ -39,30 +43,22 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next){
   upload(req, res, function(err, data) {
     if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
-			var upload = new Upload();
-		  upload.name = req.file.originalname;
-		  upload.greenhouse = req.body.greenhouse;
-		  upload.path = req.file.path;
-		  upload.status = 1;
-		  upload.created_at = new Date();
-	    upload.save(function(err, data) {
-			  if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
-			  res.send({ error: false, message: 'Upload: success.', data: data });
-			});
-  });
-});
-
-router.post('/process/:upload', function(req, res, next){
-	var converter_csv = require("csvtojson").Converter,
-			converter = new converter_csv({
-				noheader: true,
-				headers: ['val']
-			});
-  Upload.findById(req.param('upload')).exec(function(err, upload) {
+		var upload = new Upload();
+	  upload.name = req.file.originalname;
+	  upload.greenhouse = req.body.greenhouse;
+	  upload.path = req.file.path;
 	  upload.status = 2;
-    upload.save(function(err, data) {
-    	if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
-  		res.send({ error: false, message: 'Upload: success.', data: data });
+	  upload.created_at = new Date();
+    upload.save(function(err, upload) {
+		  if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
+		  res.send({ error: false, message: 'Upload: success.', data: upload });
+
+		  var converter_csv = require("csvtojson").Converter,
+					converter = new converter_csv({
+						noheader: false,
+						delimiter: ';',
+						headers: ['date', 'sensor1', 'sensor2', 'sensor3', 'sensor4', 'sensor5']
+					});
 
   		var object_sensors = {},
   				object_collect = {};
@@ -77,27 +73,25 @@ router.post('/process/:upload', function(req, res, next){
 
 		   	converter.fromFile(upload.path, function(err, result){
 
-		   		var _key = 0,
-		   				_value = 1,
-		   				_date = 2;
-
-			 		result.forEach(function(item){
-			 			object_collect = new Collect();
-			 			object_collect.type = 1;
-			 			object_collect.value = item.val.split(';')[_value];
-			 			object_collect.sensor = object_sensors[item.val.split(';')[_key]]._id;
-			 			object_collect.upload = upload._id;
-			 			object_collect.greenhouse = upload.greenhouse;
-			 			object_collect.created_at = new Date(item.val.split(';')[_date]);
-			 			object_collect.save();
+			 		result.forEach(function(item, key){
+			 			var date = item.date;
+			 			delete item.date;
+			 			for(var prop in item){
+			 				object_collect = new Collect();
+				 			object_collect.type = 1;
+				 			object_collect.value = item[prop];
+				 			object_collect.sensor = object_sensors[prop]._id;
+				 			object_collect.upload = upload._id;
+				 			object_collect.created_at = new Date(date);
+				 			object_collect.save();
+			 			}
 			 		});
 
 			 		 upload.status = 3;
 			 		 upload.save();
 
 				});
-		  });
-
+			});
 		});
   });
 });
