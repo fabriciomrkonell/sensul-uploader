@@ -19,13 +19,6 @@
 	margin: 0px;
 }
 
-#footer {
-	width: 100%;
-  bottom: 0;
-  margin-bottom: 10px;
-  position: fixed;
-}
-
 .panel-body-chart{
 	padding-bottom: 0px;
 }
