@@ -18,7 +18,10 @@
       };
 
       $routeProvider.when('/home', {
-        templateUrl: '/partials/home.html'
+        templateUrl: '/partials/home.html',
+        resolve: {
+          deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/home.js'])
+        }
       }).when('/upload', {
         templateUrl: '/partials/upload.html',
         resolve: {
