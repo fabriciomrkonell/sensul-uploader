@@ -97,3 +97,9 @@ div.app-loading p {
 	border-top-left-radius: 0px;
    	border-top-right-radius: 0px;
 }
+
+.link-menu,.link-menu:hover,.link-menu:active{
+	text-decoration: none;
+	color: #333;
+	cursor: default;
+}
