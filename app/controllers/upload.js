@@ -2,11 +2,11 @@
 
 	'use strict';
 
-	angular.module('Sensul.controllers').registerCtrl('indexCtrl', indexCtrl);
+	angular.module('Sensul.controllers').registerCtrl('uploadCtrl', uploadCtrl);
 
-	indexCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope', 'Util'];
+	uploadCtrl.$inject = ['$scope', '$http', 'Constant', '$rootScope', 'Util'];
 
-	function indexCtrl($scope, $http, Constant, $rootScope, Util) {
+	function uploadCtrl($scope, $http, Constant, $rootScope, Util) {
 
 		Util.showLoader('Carregando Informações', 'Aguarde enquando a página é carregada');
 
