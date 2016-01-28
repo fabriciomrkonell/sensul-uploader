@@ -42,10 +42,10 @@
         resolve: {
           deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/usergreenhouse.js' ])
         }
-      }).when('/upload', {
-        templateUrl: '/partials/upload.html',
+      }).when('/file', {
+        templateUrl: '/partials/file.html',
         resolve: {
-          deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/upload.js' ])
+          deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/file.js' ])
         }
       }).when('/sensor', {
         templateUrl: '/partials/sensor.html',
