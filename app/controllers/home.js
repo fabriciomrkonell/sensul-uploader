@@ -7,7 +7,7 @@
 	homeCtrl.$inject = ['$scope', 'Util'];
 
 	function homeCtrl($scope, Util) {
-	
+
 		Util.hideLoader();
 
   }
