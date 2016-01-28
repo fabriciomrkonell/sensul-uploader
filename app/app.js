@@ -13,7 +13,6 @@ angular.module('Sensul', ['Sensul.controllers', 'Sensul.config', 'Sensul.constan
 angular.module('Sensul').run(['$rootScope', 'Constant', '$http', 'Util', function($rootScope, Constant, $http, Util){
 
 	angular.extend($rootScope, {
-		me: {},
 		loader: {
 			type: 2,
 			// 1 = Message
@@ -36,12 +35,8 @@ angular.module('Sensul').run(['$rootScope', 'Constant', '$http', 'Util', functio
 		}
 	});
 
-	$http.get(Constant.url.User + '/me').success(function(data){
-		$rootScope.me = data.data;
-	});
-
-	$rootScope.hasAccess = function(values){
-		return jQuery.inArray($rootScope.me.type, values) !== -1;
+	$rootScope.showFooter = function(){
+		return window.location.hash === '#/home';
 	};
 
 	$rootScope.getUserType = function(type){

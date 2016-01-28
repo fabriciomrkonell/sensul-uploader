@@ -1,0 +1,37 @@
+[{
+	"name": "Abrigos",
+	"url": "greenhouse",
+	"permission": [1]
+}, {
+	"name": "Arquivos",
+	"url": "file",
+	"permission": [1, 2]
+}, {
+	"name": "Dados",
+	"url": "collecttable",
+	"permission": [1]
+}, {
+	"name": "Gráficos",
+	"url": "collectchart",
+	"permission": [1]
+}, {
+	"name": "Produtores",
+	"url": "grower",
+	"permission": [1]
+}, {
+	"name": "Sensores",
+	"url": "sensor",
+	"permission": [1]
+}, {
+	"name": "Upload",
+	"url": "upload",
+	"permission": [1, 2]
+}, {
+	"name": "Usuários",
+	"url": "user",
+	"permission": [1]
+}, {
+	"name": "Visualizaçāo Abrigo",
+	"url": "usergreenhouse",
+	"permission": [1]
+}]
