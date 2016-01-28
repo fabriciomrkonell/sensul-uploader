@@ -17,10 +17,12 @@
         }
       };
 
-      $routeProvider.when('/index', {
-        templateUrl: '/partials/index.html',
+      $routeProvider.when('/home', {
+        templateUrl: '/partials/home.html'
+      }).when('/upload', {
+        templateUrl: '/partials/upload.html',
         resolve: {
-          deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/index.js', '/app/libraries/jquery/js/jquery-form.js'])
+          deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/upload.js', '/app/libraries/jquery/js/jquery-form.js'])
         }
       }).when('/grower', {
         templateUrl: '/partials/grower.html',
@@ -63,7 +65,7 @@
           deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/collectchart.js', 'app/libraries/highcharts/js/highcharts.min.js' ])
         }
       }).otherwise({
-        redirectTo: '/index'
+        redirectTo: '/home'
       });
     }
   ]);
