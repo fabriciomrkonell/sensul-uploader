@@ -11,7 +11,7 @@
 		Util.showLoader('Carregando Informações', 'Aguarde enquando a página é carregada');
 
 		$rootScope.eventOkButton = function(){
-			window.location.href = '/#/upload';
+			window.location.href = '/#/file';
 		};
 
 		angular.extend($scope, {
