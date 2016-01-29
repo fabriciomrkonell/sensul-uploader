@@ -24,14 +24,6 @@ exports.initialize = function() {
     }
   });
 
-
-
-  Collect.find().exec(function(err, data) {
-    console.log(data);
-  });
-
-
-
   //User.remove().exec();
   //UserGreenHouse.remove().exec();
   //GreenHouse.remove().exec();
