@@ -24,10 +24,10 @@
             <td>{{greenhouse.name}}</td>
             <td>{{greenhouse.grower.name}}</td>
             <td width='70' class="text-center">
-               <button ng-show="hasChecked(data.user._id, greenhouse._id) === ''" type="button" class="btn btn-default btn-xs" ng-click=" saveUserGreenHouse(data.user._id, greenhouse._id)">
+               <button ng-show="hasChecked(data.user._id, greenhouse._id) === ''" type="button" class="btn btn-primary btn-xs" ng-click=" saveUserGreenHouse(data.user._id, greenhouse._id)">
                 <i class="glyphicon glyphicon-unchecked"></i>
               </button>
-              <button ng-show="hasChecked(data.user._id, greenhouse._id) !== ''" type="button" class="btn btn-default btn-xs" ng-click="deleteUserGreenHouse(data.user._id, greenhouse._id)">
+              <button ng-show="hasChecked(data.user._id, greenhouse._id) !== ''" type="button" class="btn btn-danger btn-xs" ng-click="deleteUserGreenHouse(data.user._id, greenhouse._id)">
                 <i class="glyphicon glyphicon-check"></i>
               </button>
             </td>

@@ -82,6 +82,7 @@ router.post('/', function(req, res, next){
 				 			object_collect.value = item[prop];
 				 			object_collect.sensor = object_sensors[prop]._id;
 				 			object_collect.upload = upload._id;
+				 			object_collect.greenhouse = upload.greenhouse;
 				 			object_collect.created_at = new Date(date);
 				 			object_collect.save();
 			 			}

@@ -79,7 +79,7 @@ div.app-loading p {
 .container .text-muted {
 	margin: 5px 0 0 0;
 }
-	
+
 .panel-body-menu{
 	padding: 10px;
 	font-size: 17px;
@@ -102,4 +102,8 @@ div.app-loading p {
 	text-decoration: none;
 	color: #333;
 	cursor: default;
+}
+
+.show-panel{
+	visibility: hidden;
 }

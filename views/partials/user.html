@@ -18,7 +18,7 @@
           <label>Tipo</label>
            <select class="form-control" ng-options="type.name for type in options.types" ng-model="data.type"></select>
         </div>
-        <button type="button" class="btn btn-default" ng-click="saveUser(data)">Salvar</button>
+        <button type="button" class="btn btn-success" ng-click="saveUser(data)">Salvar</button>
         <button type="button" class="btn btn-default" ng-click="clear()">Limpar</button>
       </form>
     </div>
@@ -39,10 +39,10 @@
             <td>{{user.email}}</td>
             <td>{{getUserType(user.type).name}}</td>
             <td width='80' class="text-center">
-              <button type="button" class="btn btn-default btn-xs" ng-click="editUser(user)">
+              <button type="button" class="btn btn-primary btn-xs" ng-click="editUser(user)">
                 <i class="glyphicon glyphicon-pencil"></i>
               </button>
-              <button ng-if="user.type != 1" type="button" class="btn btn-default btn-xs" ng-click="deleteUser(user, $index)">
+              <button ng-if="user.type != 1" type="button" class="btn btn-danger btn-xs" ng-click="deleteUser(user, $index)">
                 <i class="glyphicon glyphicon-remove"></i>
               </button>
             </td>

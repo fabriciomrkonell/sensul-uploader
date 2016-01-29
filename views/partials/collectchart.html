@@ -2,22 +2,22 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="panel panel-default">
-        <div class="panel-heading">Filtros <span class="pull-right">{{data.options.length}}</span></div>
+        <div class="panel-heading">Filtros</div>
         <div class="panel-body">
           <div class="col-sm-4">
             <form>
               <div class="form-group">
                 <label>Abrigo</label>
                  <select class="form-control" ng-options="(meusergreenhouse.greenhouse.name + ' - ' + meusergreenhouse.greenhouse.grower.name) for meusergreenhouse in options.meusergreenhouses" ng-model="data.greenhouse">
-                  <option value="">Todos</option>
+                  <option value="">Selecione</option>
                  </select>
               </div>
-              <button type="button" class="btn btn-default" ng-click="search(0)">Buscar</button>
+              <button type="button" class="btn btn-primary" ng-click="search(0)">Buscar</button>
             </form>
           </div>
         </div>
       </div>
-      <div class="panel panel-default">
+      <div class="panel panel-default" ng-class="{'show-panel': showResult === false }">
         <div class="panel-heading">Gráfico</div>
         <div class="panel-body panel-body-chart">
           <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>

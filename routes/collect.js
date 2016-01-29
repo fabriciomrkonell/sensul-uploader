@@ -31,6 +31,7 @@ router.post('/', function(req, res, next) {
 
 			if(req.body.greenhouse) filter['greenhouse'] = req.body.greenhouse;
 
+			console.log(filter);
 	Collect.find(filter).limit(perpage).skip(perpage * page).populate('sensor upload').exec(function(err, data) {
     if (err) throw console.log({ error: true, message: 'Collect: error.', data: err });
     if(req.body.chart === true){

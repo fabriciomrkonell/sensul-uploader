@@ -18,7 +18,7 @@
             <td>{{getUploadStatus(upload.status).name}}</td>
             <td><a href="{{upload.path}}" target="_blank">{{upload.name}}</a></td>
             <td width='60' class="text-center">
-              <button type="button" class="btn btn-default btn-xs" ng-click="deleteUpload(upload, $index)">
+              <button type="button" class="btn btn-danger btn-xs" ng-click="deleteUpload(upload, $index)">
                 <i class="glyphicon glyphicon-remove"></i>
               </button>
             </td>

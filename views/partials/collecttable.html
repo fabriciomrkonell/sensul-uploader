@@ -9,27 +9,27 @@
               <div class="form-group">
                 <label>Abrigo</label>
                  <select class="form-control" ng-options="(meusergreenhouse.greenhouse.name + ' - ' + meusergreenhouse.greenhouse.grower.name) for meusergreenhouse in options.meusergreenhouses" ng-model="data.greenhouse">
-                  <option value="">Todos</option>
+                  <option value="">Selecione</option>
                  </select>
               </div>
-              <button type="button" class="btn btn-default" ng-click="search(0)">Buscar</button>
+              <button type="button" class="btn btn-primary" ng-click="search(0)">Buscar</button>
             </form>
           </div>
         </div>
       </div>
-      <table class="table table-responsive table-condensed table-bordered">
+      <table class="table table-responsive table-condensed table-bordered" ng-class="{'show-panel': showResult === false }">
         <thead>
           <tr>
             <th>Sensor</th>
             <th>Upload</th>
-            <th>Valor</th>
+            <th class="text-center" width="100">Valor</th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat="collect in data.options">
             <td>{{collect.sensor.description}}</td>
             <td>{{collect.upload.name}}</td>
-            <td>{{collect.value}}</td>
+            <td class="text-center" width="100">{{collect.value}}</td>
           </tr>
         </tbody>
       </table>

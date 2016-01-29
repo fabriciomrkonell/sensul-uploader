@@ -10,7 +10,7 @@
           <label>Cidade</label>
           <input type="text" class="form-control" placeholder="Nome da cidade" ng-model="data.city">
         </div>
-        <button type="button" class="btn btn-default" ng-click="saveGrower(data)">Salvar</button>
+        <button type="button" class="btn btn-success" ng-click="saveGrower(data)">Salvar</button>
         <button type="button" class="btn btn-default" ng-click="clear()">Limpar</button>
       </form>
     </div>
@@ -29,10 +29,10 @@
             <td>{{grower.name}}</td>
             <td>{{grower.city}}</td>
             <td width='80' class="text-center">
-              <button type="button" class="btn btn-default btn-xs" ng-click="editGrower(grower)">
+              <button type="button" class="btn btn-primary btn-xs" ng-click="editGrower(grower)">
                 <i class="glyphicon glyphicon-pencil"></i>
               </button>
-              <button type="button" class="btn btn-default btn-xs" ng-click="deleteGrower(grower, $index)">
+              <button type="button" class="btn btn-danger btn-xs" ng-click="deleteGrower(grower, $index)">
                 <i class="glyphicon glyphicon-remove"></i>
               </button>
             </td>

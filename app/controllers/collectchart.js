@@ -11,6 +11,7 @@
 		Util.showLoader('Carregando Informações', 'Aguarde enquando a página é carregada');
 
 		angular.extend($scope, {
+			showResult: false,
 			filter: {
 				page: 0,
 				chart: true
@@ -30,11 +31,13 @@
 		});
 
 		$scope.search = function(page){
+			if($scope.validForm()) return false;
 			Util.showLoader('Carregando Informações', 'Aguarde enquando os dados sāo carregados');
 			if(page === 0){
-				$scope.filter.greenhouse = angular.isObject($scope.data.greenhouse) ? $scope.data.greenhouse._id : null;
+				$scope.filter.greenhouse = $scope.data.greenhouse.greenhouse._id;
 			}
 			$http.post(Constant.url.Collect, $scope.filter).success(function(data){
+				$scope.showResult = (data.data.length > 0);
 				$('#container').highcharts({
 		      chart: {
 		        type: 'line'
@@ -61,6 +64,11 @@
 				alert(error);
 			});
 		};
+
+		$scope.validForm = function(){
+			if(!angular.isObject($scope.data.greenhouse)) { alert('Favor preencher o campo Abrigo!'); return true }
+			return false;
+		}
   }
 
 }());
