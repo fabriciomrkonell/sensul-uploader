@@ -10,6 +10,8 @@
 
 		Util.showLoader('Carregando Informações', 'Aguarde enquando a página é carregada');
 
+		$('#sensors-multiselect').multiselect();
+
 		angular.extend($scope, {
 			showResult: false,
 			filter: {
@@ -26,6 +28,22 @@
 		$http.get(Constant.url.UserGreenHouse).success(function(data){
 			$rootScope.options.meusergreenhouses = data.data;
 			Util.hideLoader();
+		}).error(function(error){
+			alert(error);
+		});
+
+		$http.get(Constant.url.Sensor).success(function(data){
+			var options = [];
+			data.data.forEach(function(item){
+				console.log(item);
+				options.push({
+					label: item.description,
+					title: item.description,
+					value: item._id,
+					selected: true
+				})
+			});
+			$('#sensors-multiselect').multiselect('dataprovider', options);
 		}).error(function(error){
 			alert(error);
 		});

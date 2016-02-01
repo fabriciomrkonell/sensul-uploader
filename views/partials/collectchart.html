@@ -1,20 +1,26 @@
+<link rel="stylesheet" type="text/css" href="/app/libraries/bootstrap-multiselect/css/bootstrap-multiselect.min.css">
 <div ng-controller="collectchartCtrl">
   <div class="row">
     <div class="col-sm-12">
       <div class="panel panel-default">
-        <div class="panel-heading">Filtros</div>
+        <div class="panel-heading">Filtros<button type="button" class="btn btn-primary btn-filter" ng-click="search(0)">Buscar</button></div>
         <div class="panel-body">
-          <div class="col-sm-4">
-            <form>
+          <form>
+            <div class="col-sm-4">
               <div class="form-group">
                 <label>Abrigo</label>
                  <select class="form-control" ng-options="(meusergreenhouse.greenhouse.name + ' - ' + meusergreenhouse.greenhouse.grower.name) for meusergreenhouse in options.meusergreenhouses" ng-model="data.greenhouse">
                   <option value="">Selecione</option>
                  </select>
               </div>
-              <button type="button" class="btn btn-primary" ng-click="search(0)">Buscar</button>
-            </form>
-          </div>
+             </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label>Abrigo</label>
+                <select id="sensors-multiselect" class="form-control" multiple="multiple"></select>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
       <div class="panel panel-default" ng-class="{'show-panel': showResult === false }">

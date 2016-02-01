@@ -107,3 +107,8 @@ div.app-loading p {
 .show-panel{
 	visibility: hidden;
 }
+
+.btn-filter{
+	float: right;
+	margin-top: -7px;
+}

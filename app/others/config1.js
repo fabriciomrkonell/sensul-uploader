@@ -60,12 +60,12 @@
       }).when('/collecttable', {
         templateUrl: '/partials/collecttable.html',
         resolve: {
-          deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/collecttable.js' ])
+          deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/collecttable.js', '/app/libraries/bootstrap-multiselect/js/bootstrap-multiselect.js' ])
         }
       }).when('/collectchart', {
         templateUrl: '/partials/collectchart.html',
         resolve: {
-          deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/collectchart.js', 'app/libraries/highcharts/js/highcharts.min.js' ])
+          deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/collectchart.js', 'app/libraries/highcharts/js/highcharts.min.js', '/app/libraries/bootstrap-multiselect/js/bootstrap-multiselect.js' ])
         }
       }).otherwise({
         redirectTo: '/home'
