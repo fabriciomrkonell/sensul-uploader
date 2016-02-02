@@ -30,6 +30,7 @@ db.on('error', function(){
   console.log('Database: error.');
 }).once('open', function() {
   console.log('Database: success.');
+  init.initialize();
 });
 
 // Configuration Strategy Local
@@ -116,7 +117,5 @@ crontab.scheduleJob("*/60 * * * *", function(){
    googleDrive.refresh(auth);
   });
 });
-
-init.initialize();
 
 module.exports = app;

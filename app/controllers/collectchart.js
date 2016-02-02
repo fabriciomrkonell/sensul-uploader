@@ -35,7 +35,6 @@
 		$http.get(Constant.url.Sensor).success(function(data){
 			var options = [];
 			data.data.forEach(function(item){
-				console.log(item);
 				options.push({
 					label: item.description,
 					title: item.description,
@@ -53,6 +52,7 @@
 			Util.showLoader('Carregando Informações', 'Aguarde enquando os dados sāo carregados');
 			if(page === 0){
 				$scope.filter.greenhouse = $scope.data.greenhouse.greenhouse._id;
+				$scope.filter.sensors = $('#sensors-multiselect').val();
 			}
 			$http.post(Constant.url.Collect, $scope.filter).success(function(data){
 				$scope.showResult = (data.data.length > 0);

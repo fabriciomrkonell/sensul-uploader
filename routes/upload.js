@@ -57,7 +57,7 @@ router.post('/', function(req, res, next){
 					converter = new converter_csv({
 						noheader: false,
 						delimiter: ';',
-						headers: ['date', 'sensor1', 'sensor2', 'sensor3', 'sensor4', 'sensor5']
+						headers: ['date', 'humidity', 'temperature', 'pressure', 'seaPressure', 'altitude']
 					});
 
   		var object_sensors = {},
@@ -77,6 +77,9 @@ router.post('/', function(req, res, next){
 			 			var date = item.date;
 			 			delete item.date;
 			 			for(var prop in item){
+
+			 				console.log(prop);
+
 			 				object_collect = new Collect();
 				 			object_collect.type = 1;
 				 			object_collect.value = item[prop];

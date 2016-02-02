@@ -27,11 +27,17 @@ router.post('/', function(req, res, next) {
 	var perpage = 50,
 			exit = {},
 			page = Math.max(0, req.body.page),
-			filter = {};
+			filter = {},
+			or_sensor = [];
 
-			if(req.body.greenhouse) filter['greenhouse'] = req.body.greenhouse;
+	req.body.sensors.forEach(function(item){
+		or_sensor.push({ 'sensor': item });
+	});
 
-			console.log(filter);
+	filter['$or'] = or_sensor;
+
+	if(req.body.greenhouse) filter['greenhouse'] = req.body.greenhouse;
+
 	Collect.find(filter).limit(perpage).skip(perpage * page).populate('sensor upload').exec(function(err, data) {
     if (err) throw console.log({ error: true, message: 'Collect: error.', data: err });
     if(req.body.chart === true){
