@@ -28,6 +28,7 @@
           <tr>
             <th>Sensor</th>
             <th>Upload</th>
+            <th class="text-center" width="150">Data</th>
             <th class="text-center" width="100">Valor</th>
           </tr>
         </thead>
@@ -35,6 +36,7 @@
           <tr ng-repeat="collect in data.options">
             <td>{{collect.sensor.description}}</td>
             <td>{{collect.upload.name}}</td>
+            <td class="text-center" width="150">{{collect.created_at | date:'HH:mm - dd/MM/yyyy'}}</td>
             <td class="text-center" width="100">{{collect.value}}</td>
           </tr>
         </tbody>
