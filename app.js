@@ -113,9 +113,13 @@ app.use(function(err, req, res, next) {
 });
 
 crontab.scheduleJob("*/60 * * * *", function(){
-  googleDrive.search(function(auth){
-   googleDrive.refresh(auth);
+  googleDrive.authenticate(function(auth){
+    googleDrive.refresh(auth);
   });
+});
+
+crontab.scheduleJob("*/1 * * * *", function(){
+  console.log('Fabricio');
 });
 
 module.exports = app;

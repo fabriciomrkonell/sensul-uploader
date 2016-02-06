@@ -56,8 +56,7 @@ router.post('/', function(req, res, next){
 		  var converter_csv = require("csvtojson").Converter,
 					converter = new converter_csv({
 						noheader: false,
-						delimiter: ';',
-						headers: ['date', 'humidity', 'temperature', 'pressure', 'seaPressure', 'altitude']
+						delimiter: ';'
 					});
 
   		var object_sensors = {},
@@ -77,8 +76,6 @@ router.post('/', function(req, res, next){
 			 			var date = item.date;
 			 			delete item.date;
 			 			for(var prop in item){
-
-			 				console.log(prop);
 
 			 				object_collect = new Collect();
 				 			object_collect.type = 1;

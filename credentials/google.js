@@ -22,7 +22,7 @@ function authorize(credentials, callback) {
   });
 };
 
-exports.search = function(callback){
+exports.authenticate = function(callback){
   fs.readFile(google_secret, function processClientSecrets(err, content) {
     if (err) {
       console.log('Google: error.');
@@ -32,25 +32,10 @@ exports.search = function(callback){
   });
 };
 
-exports.listAllFiles = function(auth, req, res, next) {
-  var service = google.drive('v3');
-  service.files.list({
-    q: "'0B0ppDK6BvhqUNU5vQTNGUFVwWEE' in parents",
-    auth: auth,
-    pageSize: 10,
-    fields: "nextPageToken, files(id, name)"
-  }, function(err, response) {
-    if (err) throw res.send({ error: true, message: 'Google: error.', data: err });
-    res.send({ error: false, message: 'Google: success.', data: response.files });
-  });
-};
-
 exports.refresh = function(auth){
-  var service = google.drive('v3'),
-      date = new Date();
+  var service = google.drive('v3');
 
-  date.setMinutes(date.getMinutes() - 60);
-  Upload.find({ created_at: { $gte: date } }).exec(function(err, data) {
+  Upload.find({ backup: false }).exec(function(err, data) {
     data.forEach(function(item){
       service.files.create({
         auth: auth,
@@ -64,6 +49,9 @@ exports.refresh = function(auth){
           body: fs.createReadStream(item.path)
         },
         fields: 'id'
+      }, function(err, file){
+        console.log(err);
+        console.log(file);
       });
     });
   });
