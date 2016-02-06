@@ -23,7 +23,7 @@ router.get('/', function(req, res, next) {
 	UserGreenHouse.find({
 		user: req.user._id
 	}, 'greenhouse').exec(function(err, usergreenhouse) {
-		var search = [];
+		var search = [{ 'greenhouse': '00a0aaaaaaa00aaa000a00aa' }];
 		usergreenhouse.forEach(function(item){
 			search.push({ 'greenhouse': item.greenhouse });
 		});
