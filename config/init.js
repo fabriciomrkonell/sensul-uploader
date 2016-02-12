@@ -30,5 +30,5 @@ exports.initialize = function() {
   //Grower.remove().exec();
   //Sensor.remove().exec();
   //Upload.remove().exec();
-  //Collect.remove().exec();
+  Collect.remove().exec();
 }
