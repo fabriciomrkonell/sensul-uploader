@@ -8,6 +8,8 @@
             <th>Produtor</th>
             <th>Arquivo</th>
             <th>Status</th>
+            <th>Backup</th>
+            <th>Data</th>
             <th width='60' class="text-center">Ações</th>
           </tr>
         </thead>
@@ -16,6 +18,8 @@
             <td>{{upload.greenhouse.name}}</td>
             <td>{{upload.greenhouse.grower.name}}</td>
             <td>{{getUploadStatus(upload.status).name}}</td>
+            <td>{{upload.backup ? 'Sim' : 'Nāo'}}</td>
+            <td>{{upload.created_at | date:'HH:mm:ss dd/MM/yyyy'}}</td>
             <td><a href="{{upload.path}}" target="_blank">{{upload.name}}</a></td>
             <td width='60' class="text-center">
               <button type="button" class="btn btn-danger btn-xs" ng-click="deleteUpload(upload, $index)">

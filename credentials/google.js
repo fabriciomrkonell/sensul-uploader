@@ -40,7 +40,7 @@ exports.refresh = function(auth){
       service.files.create({
         auth: auth,
         resource: {
-          'name': item.name,
+          'name': item._id,
           'mimeType': 'application/vnd.google-apps.spreadsheet',
           parents: ['0B0ppDK6BvhqUNU5vQTNGUFVwWEE']
         },
@@ -50,8 +50,9 @@ exports.refresh = function(auth){
         },
         fields: 'id'
       }, function(err, file){
-        console.log(err);
-        console.log(file);
+        if(err) return false;
+        item.backup = true;
+        item.save();
       });
     });
   });

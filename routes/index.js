@@ -6,7 +6,7 @@ var express = require('express'),
 
 router.get('/partials/:file', function(req, res, next) {
   if(req.param('file') === 'home.html'){
-    var html = '<div ng-controller="homeCtrl"><div class="container"><div class="row text-center"><h2>MENU</h2></div><br><div class="row">';
+    var html = '<div ng-controller="homeCtrl" style="margin-bottom: 50px"><div class="container"><div class="row text-center"><h2>MENU</h2></div><br><div class="row">';
       pages.forEach(function(page){
         if(page.permission.indexOf(req.user.type) !== -1){
 	       	html = html + '<a href="/#/' + page.url + '" class="link-menu">' +

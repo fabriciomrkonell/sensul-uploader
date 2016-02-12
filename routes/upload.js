@@ -33,7 +33,7 @@ router.get('/', function(req, res, next) {
 	    path: 'greenhouse',
 	    populate: { path: 'grower',
 	    model: 'Grower' }
-	  }).exec(function(err, data) {
+	  }).sort('-created_at').exec(function(err, data) {
 	    if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
 	  	res.send({ error: false, message: 'Upload: success.', data: data });
 	  });
@@ -47,6 +47,7 @@ router.post('/', function(req, res, next){
 	  upload.name = req.file.originalname;
 	  upload.greenhouse = req.body.greenhouse;
 	  upload.path = req.file.path;
+	  upload.backup = false;
 	  upload.status = 2;
 	  upload.created_at = new Date();
     upload.save(function(err, upload) {
@@ -72,15 +73,10 @@ router.post('/', function(req, res, next){
 
 		   	converter.fromFile(upload.path, function(err, result){
 
-
-
 			 		result.forEach(function(item, key){
 			 			var date = item.date;
 			 			delete item.date;
 			 			for(var prop in item){
-
-			 				console.log(date);
-
 			 				object_collect = new Collect();
 				 			object_collect.type = 1;
 				 			object_collect.value = item[prop];
@@ -92,8 +88,8 @@ router.post('/', function(req, res, next){
 			 			}
 			 		});
 
-			 		 upload.status = 3;
-			 		 upload.save();
+			 		upload.status = 3;
+			 		upload.save();
 
 				});
 			});

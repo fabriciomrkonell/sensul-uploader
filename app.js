@@ -112,7 +112,7 @@ app.use(function(err, req, res, next) {
   res.send(err);
 });
 
-crontab.scheduleJob("*/60 * * * *", function(){
+crontab.scheduleJob("*/1 * * * *", function(){
   googleDrive.authenticate(function(auth){
     googleDrive.refresh(auth);
   });
