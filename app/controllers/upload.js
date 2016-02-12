@@ -40,7 +40,7 @@
 
 		$scope.sendUpload = function(){
 			if($scope.validForm()) return false;
-			Util.showLoader('Enviando Arquivo', 'Aguarde enquanto o arquivo é enviado');
+			Util.showLoader('Enviando Arquivo', 'Aguarde enquanto o arquivo é enviado. Isso pode demorar alguns minutos.');
       $('#formUpload').ajaxSubmit({
         dataType: 'text',
         error: function(error) {

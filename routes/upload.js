@@ -41,6 +41,20 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next){
+
+	var _itens = [];
+
+	function persistForEach(req, res, next, index){
+		if(index === _itens.length){
+			_itens = [];
+			res.send({ error: false, message: 'Upload: success.', data: upload });
+		}else{
+			_itens[index].save(function(err, _upload) {
+				persistForEach(req, res, next, index + 1);
+			});
+		}
+	};
+
   upload(req, res, function(err, data) {
     if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
 		var upload = new Upload();
@@ -52,7 +66,6 @@ router.post('/', function(req, res, next){
 	  upload.created_at = new Date();
     upload.save(function(err, upload) {
 		  if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
-		  res.send({ error: false, message: 'Upload: success.', data: upload });
 
 		  var converter_csv = require("csvtojson").Converter,
 					converter = new converter_csv({
@@ -84,9 +97,11 @@ router.post('/', function(req, res, next){
 				 			object_collect.upload = upload._id;
 				 			object_collect.greenhouse = upload.greenhouse;
 				 			object_collect.created_at = new Date(date);
-				 			object_collect.save();
+				 			_itens.push(object_collect);
 			 			}
 			 		});
+
+			 		persistForEach(req, res, next, 0);
 
 			 		upload.status = 3;
 			 		upload.save();

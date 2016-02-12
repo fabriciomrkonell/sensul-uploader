@@ -24,7 +24,7 @@ function transformChart(data){
 };
 
 router.post('/', function(req, res, next) {
-	var perpage = 50,
+	var perpage = 5000,
 			exit = {},
 			page = Math.max(0, req.body.page),
 			filter = {},
