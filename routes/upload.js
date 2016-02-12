@@ -72,10 +72,14 @@ router.post('/', function(req, res, next){
 
 		   	converter.fromFile(upload.path, function(err, result){
 
+
+
 			 		result.forEach(function(item, key){
 			 			var date = item.date;
 			 			delete item.date;
 			 			for(var prop in item){
+
+			 				console.log(date);
 
 			 				object_collect = new Collect();
 				 			object_collect.type = 1;

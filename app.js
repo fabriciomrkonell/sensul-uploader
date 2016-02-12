@@ -119,7 +119,7 @@ crontab.scheduleJob("*/60 * * * *", function(){
 });
 
 crontab.scheduleJob("*/1 * * * *", function(){
-
+console.log('d');
 });
 
 module.exports = app;
