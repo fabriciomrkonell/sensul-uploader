@@ -10,7 +10,7 @@
 			Upload: '/upload',
 			UserGreenHouse: '/usergreenhouse',
 			Sensor: '/sensor',
-			Collect: '/collect'
+			Solr: '/solr'
 		},
 		options: {
 			Status: [{

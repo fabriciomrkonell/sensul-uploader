@@ -54,7 +54,7 @@
 				$scope.filter.greenhouse = $scope.data.greenhouse.greenhouse._id;
 				$scope.filter.sensors = $('#sensors-multiselect').val();
 			}
-			$http.post(Constant.url.Collect, $scope.filter).success(function(data){
+			$http.post(Constant.url.Sorl, $scope.filter).success(function(data){
 				$scope.showResult = (data.data.data.length > 0);
 				$scope.filter.page = page;
 				$scope.data.pages = data.data.pages;

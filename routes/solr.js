@@ -2,7 +2,7 @@
 
 var express = require('express'),
 		router = express.Router(),
-		Collect = require('../models/collect');
+		Collect = {};
 
 function transformChart(data){
 	var array_exit = [],

@@ -5,8 +5,7 @@ var User = require('../models/user'),
     GreenHouse = require('../models/greenhouse'),
     Grower = require('../models/grower'),
     Sensor = require('../models/sensor'),
-    Upload = require('../models/upload'),
-    Collect = require('../models/collect');
+    Upload = require('../models/upload');
 
 exports.initialize = function() {
   User.find({
@@ -30,5 +29,4 @@ exports.initialize = function() {
   //Grower.remove().exec();
   //Sensor.remove().exec();
   //Upload.remove().exec();
-  //Collect.remove().exec();
 }

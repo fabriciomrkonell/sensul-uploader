@@ -5,7 +5,6 @@ var express = require('express'),
 		Upload = require('../models/upload'),
 		UserGreenHouse = require('../models/usergreenhouse'),
 		Sensor = require('../models/sensor'),
-		Collect = require('../models/collect'),
 		fs = require('fs'),
 		multer = require('multer'),
 		upload = multer({
@@ -17,7 +16,14 @@ var express = require('express'),
           callback(null, Date.now() + '-' + file.originalname);
        }
       })
-    }).single('filecsv');
+    }).single('filecsv'),
+    solr = require('solr-client'),
+    client = solr.createClient({
+    	port: 8984,
+    	core: 'sensul-uploader'
+    });
+
+client.basicAuth('admin','admin');
 
 router.get('/', function(req, res, next) {
 	UserGreenHouse.find({
@@ -44,17 +50,6 @@ router.post('/', function(req, res, next){
 
 	var _itens = [];
 
-	function persistForEach(req, res, next, index){
-		if(index === _itens.length){
-			_itens = [];
-			res.send({ error: false, message: 'Upload: success.', data: upload });
-		}else{
-			_itens[index].save(function(err, _upload) {
-				persistForEach(req, res, next, index + 1);
-			});
-		}
-	};
-
   upload(req, res, function(err, data) {
     if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
 		var upload = new Upload();
@@ -66,7 +61,6 @@ router.post('/', function(req, res, next){
 	  upload.created_at = new Date();
     upload.save(function(err, upload) {
 		  if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
-
 		  var converter_csv = require("csvtojson").Converter,
 					converter = new converter_csv({
 						noheader: false,
@@ -86,25 +80,30 @@ router.post('/', function(req, res, next){
 
 		   	converter.fromFile(upload.path, function(err, result){
 
+		   		console.log(upload);
+
 			 		result.forEach(function(item, key){
 			 			var date = item.date;
 			 			delete item.date;
 			 			for(var prop in item){
-			 				object_collect = new Collect();
-				 			object_collect.type = 1;
-				 			object_collect.value = item[prop];
-				 			object_collect.sensor = object_sensors[prop]._id;
-				 			object_collect.upload = upload._id;
-				 			object_collect.greenhouse = upload.greenhouse;
-				 			object_collect.created_at = new Date(date);
+			 				object_collect = {};
+				 			object_collect.collectValue = item[prop];
+				 			object_collect.sensorName = object_sensors[prop].description;
+				 			object_collect.sensorId = object_sensors[prop]._id;
+				 			object_collect.uploadId = upload._id;
+				 			object_collect.greenhouseName = upload.greenhouse;
+				 			object_collect.greenhouseId = upload.greenhouse;
+				 			object_collect.created = new Date(date);
 				 			_itens.push(object_collect);
 			 			}
 			 		});
 
-			 		persistForEach(req, res, next, 0);
-
-			 		upload.status = 3;
-			 		upload.save();
+			 		client.add(_itens,function(err,obj){
+					  if (err) throw console.log({ error: true, message: 'Solr: error.', data: err });
+					  upload.status = 3;
+					 	upload.save();
+					  res.send({ error: false, message: 'Upload: success.', data: upload });
+					});
 
 				});
 			});

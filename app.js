@@ -10,7 +10,7 @@ var express = require('express'),
     route_user = require('./routes/user'),
     route_usergreenhouse = require('./routes/usergreenhouse'),
     route_sensor = require('./routes/sensor'),
-    route_collect = require('./routes/collect'),
+    route_sorl = require('./routes/solr'),
     route_index = require('./routes/index'),
     googleDrive = require('./credentials/google'),
     passport = require('passport'),
@@ -92,7 +92,7 @@ app.use('/upload', require('connect-ensure-login').ensureLoggedIn(), route_uploa
 app.use('/user', require('connect-ensure-login').ensureLoggedIn(), route_user);
 app.use('/usergreenhouse', require('connect-ensure-login').ensureLoggedIn(), route_usergreenhouse);
 app.use('/sensor', require('connect-ensure-login').ensureLoggedIn(), route_sensor);
-app.use('/collect', require('connect-ensure-login').ensureLoggedIn(), route_collect);
+app.use('/solr', require('connect-ensure-login').ensureLoggedIn(), route_sorl);
 
 app.use(function(req, res, next) {
   var err = new Error('Não encontrado!');
