@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema name="sensul-uploader" version="1.5">
+
+	<!-- Conf Default-->
+	<field name="id" type="string" indexed="true" stored="true" multiValued="false" />
+  <field name="_version_" type="long" indexed="true" stored="true" multiValued="false" />
+
+  <!--My Properties-->
+  <field name="collectValue" type="float" indexed="true" stored="true" multiValued="false" />
+  <field name="sensorName" type="string" indexed="true" stored="true" multiValued="false" />
+  <field name="sensorId" type="string" indexed="true" stored="false" multiValued="false" />
+  <field name="uploadId" type="string" indexed="true" stored="false" multiValued="false" />
+  <field name="greenhouseName" type="string" indexed="true" stored="true" multiValued="false" />
+  <field name="greenhouseId" type="string" indexed="true" stored="false" multiValued="false" />
+  <field name="created" type="date" indexed="true" stored="true" multiValued="false" />
+
+  <uniqueKey>id</uniqueKey>
+  <fieldType name="string" class="solr.StrField" />
+  <fieldType name="long" class="solr.TrieLongField" />
+  <fieldType name="float" class="solr.TrieFloatField" />
+  <fieldType name="date" class="solr.TrieDateField" />
+</schema>
