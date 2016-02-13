@@ -17,13 +17,7 @@ var express = require('express'),
        }
       })
     }).single('filecsv'),
-    solr = require('solr-client'),
-    client = solr.createClient({
-    	port: 8984,
-    	core: 'sensul-uploader'
-    });
-
-client.basicAuth('admin','admin');
+    solr_client = require('../config/solr');
 
 router.get('/', function(req, res, next) {
 	UserGreenHouse.find({
@@ -78,34 +72,32 @@ router.post('/', function(req, res, next){
 					object_sensors[item.name]._id = item._id;
 				});
 
-		   	converter.fromFile(upload.path, function(err, result){
-
-		   		console.log(upload);
-
-			 		result.forEach(function(item, key){
-			 			var date = item.date;
-			 			delete item.date;
-			 			for(var prop in item){
-			 				object_collect = {};
-				 			object_collect.collectValue = item[prop];
-				 			object_collect.sensorName = object_sensors[prop].description;
-				 			object_collect.sensorId = object_sensors[prop]._id;
-				 			object_collect.uploadId = upload._id;
-				 			object_collect.greenhouseName = upload.greenhouse;
-				 			object_collect.greenhouseId = upload.greenhouse;
-				 			object_collect.created = new Date(date);
-				 			_itens.push(object_collect);
-			 			}
-			 		});
-
-			 		client.add(_itens,function(err,obj){
-					  if (err) throw console.log({ error: true, message: 'Solr: error.', data: err });
-					  upload.status = 3;
-					 	upload.save();
-					  res.send({ error: false, message: 'Upload: success.', data: upload });
+				Upload.populate(upload, { path: "greenhouse" }, function(err, upload) {
+					converter.fromFile(upload.path, function(err, result){
+				 		result.forEach(function(item, key){
+				 			var date = item.date;
+				 			delete item.date;
+				 			for(var prop in item){
+				 				object_collect = {};
+					 			object_collect.collectValue = item[prop];
+					 			object_collect.sensorName = object_sensors[prop].description;
+					 			object_collect.sensorId = object_sensors[prop]._id;
+					 			object_collect.uploadId = upload._id;
+					 			object_collect.greenhouseName = upload.greenhouse.name;
+					 			object_collect.greenhouseId = upload.greenhouse._id;
+					 			object_collect.created = new Date(date);
+					 			_itens.push(object_collect);
+				 			}
+				 		});
+				 		solr_client.add(_itens,function(err,obj){
+						  if (err) throw console.log({ error: true, message: 'Solr: error.', data: err });
+						  solr_client.commit();
+						  upload.status = 3;
+						 	upload.save();
+						  res.send({ error: false, message: 'Upload: success.', data: upload });
+						});
 					});
-
-				});
+				})
 			});
 		});
   });
@@ -118,7 +110,6 @@ router.delete('/:id', function(req, res, next) {
 	  }, function(err, data) {
 	    if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
 	    fs.unlinkSync('./' + upload.path);
-			Collect.remove({ upload: req.param('id') }).exec();
 		  res.send({ error: false, message: 'Upload: success.', data: data });
 	  });
 	});
