@@ -5,7 +5,8 @@ var User = require('../models/user'),
     GreenHouse = require('../models/greenhouse'),
     Grower = require('../models/grower'),
     Sensor = require('../models/sensor'),
-    Upload = require('../models/upload');
+    Upload = require('../models/upload'),
+    solr_client = require('./solr');
 
 exports.initialize = function() {
   User.find({
@@ -21,6 +22,17 @@ exports.initialize = function() {
       user.update_at = new Date();
       user.save();
     }
+  });
+
+  var query = solr_client.createQuery()
+          .q('*:*')
+          .start(0)
+          .rows(10);
+
+  solr_client.search(query, function(err, data){
+
+    console.log(err);
+    console.log(data.response);
   });
 
   //User.remove().exec();

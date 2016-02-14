@@ -2,15 +2,16 @@
 
 var express = require('express'),
 		router = express.Router(),
-		Collect = {};
+		solr_client = require('../config/solr');
 
 function transformChart(data){
 	var array_exit = [],
 			object_exit = {};
 
 	data.forEach(function(item){
-		if(object_exit[item.sensor.description] === undefined) object_exit[item.sensor.description] = [];
-		object_exit[item.sensor.description].push([new Date(item.created_at).getTime(), parseFloat(item.value)]);
+		console.log(item)
+		if(object_exit[item.sensorName] === undefined) object_exit[item.sensorName] = [];
+		object_exit[item.sensorName].push([new Date(item.created).getTime(), parseFloat(item.collectValue)]);
 	});
 
 	for(var index in object_exit) {
@@ -24,31 +25,33 @@ function transformChart(data){
 };
 
 router.post('/', function(req, res, next) {
+
+
 	var perpage = 5000,
 			exit = {},
 			page = Math.max(0, req.body.page),
 			filter = {},
 			or_sensor = [];
 
+  var query = solr_client.createQuery().q('*:*').start(0).rows(perpage);
+
 	req.body.sensors.forEach(function(item){
-		or_sensor.push({ 'sensor': item });
+		or_sensor.push(item);
 	});
 
-	filter['$or'] = or_sensor;
+	query.qf({ sensorId: or_sensor });
 
-	if(req.body.greenhouse) filter['greenhouse'] = req.body.greenhouse;
+	if(req.body.greenhouse) query.qf({ greenhouseId: req.body.greenhouse });
 
-	Collect.find(filter).limit(perpage).skip(perpage * page).populate('sensor upload').exec(function(err, data) {
-    if (err) throw console.log({ error: true, message: 'Collect: error.', data: err });
+	solr_client.search(query, function(err, data){
+    if (err) throw console.log({ error: true, message: 'Solr: error.', data: err });
     if(req.body.chart === true){
-    	res.send({ error: false, message: 'Collect: success.', data: transformChart(data) });
+    	res.send({ error: false, message: 'Solr: success.', data: transformChart(data.response.docs) });
     }else{
-    	Collect.count(filter).exec(function(err, count) {
-	    	exit.data = data;
-		    exit.page = page;
-		    exit.pages = Math.round(count / perpage);
-		  	res.send({ error: false, message: 'Collect: success.', data: exit });
-	    });
+    	exit.data = data.response.docs;
+	    exit.page = page;
+	    exit.pages = Math.round(100 / perpage);
+	  	res.send({ error: false, message: 'Solr: success.', data: exit });
     }
   });
 });
