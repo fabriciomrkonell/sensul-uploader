@@ -24,17 +24,6 @@ exports.initialize = function() {
     }
   });
 
-  var query = solr_client.createQuery()
-          .q('*:*')
-          .start(0)
-          .rows(10);
-
-  solr_client.search(query, function(err, data){
-
-    console.log(err);
-    console.log(data.response);
-  });
-
   //User.remove().exec();
   //UserGreenHouse.remove().exec();
   //GreenHouse.remove().exec();

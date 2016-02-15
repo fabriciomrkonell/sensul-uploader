@@ -17,7 +17,7 @@ var express = require('express'),
     Strategy = require('passport-local').Strategy,
     db_passport = require('./config/passport'),
     init = require('./config/init'),
-    solr_client = require('./config/solr'),
+    utils = require('./config/util'),
     crontab = require('node-crontab');
 
 var app = express(),

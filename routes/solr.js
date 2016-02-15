@@ -9,7 +9,6 @@ function transformChart(data){
 			object_exit = {};
 
 	data.forEach(function(item){
-		console.log(item)
 		if(object_exit[item.sensorName] === undefined) object_exit[item.sensorName] = [];
 		object_exit[item.sensorName].push([new Date(item.created).getTime(), parseFloat(item.collectValue)]);
 	});
@@ -27,21 +26,19 @@ function transformChart(data){
 router.post('/', function(req, res, next) {
 
 
-	var perpage = 5000,
+	var perpage = 500000,
 			exit = {},
 			page = Math.max(0, req.body.page),
 			filter = {},
 			or_sensor = [];
 
-  var query = solr_client.createQuery().q('*:*').start(0).rows(perpage);
+  var query = solr_client.createQuery().start(0).rows(perpage);
 
 	req.body.sensors.forEach(function(item){
 		or_sensor.push(item);
 	});
 
-	query.qf({ sensorId: or_sensor });
-
-	if(req.body.greenhouse) query.qf({ greenhouseId: req.body.greenhouse });
+	query.q({ sensorId: '(' + or_sensor.toString().replaceAll(',', ' OR ') + ')', greenhouseId: req.body.greenhouse });
 
 	solr_client.search(query, function(err, data){
     if (err) throw console.log({ error: true, message: 'Solr: error.', data: err });
