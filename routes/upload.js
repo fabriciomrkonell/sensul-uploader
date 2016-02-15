@@ -108,9 +108,10 @@ router.delete('/:id', function(req, res, next) {
 		Upload.remove({
 	  	_id: req.param('id')
 	  }, function(err, data) {
-	    if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
-	    fs.unlinkSync('./' + upload.path);
-		  res.send({ error: false, message: 'Upload: success.', data: data });
+	    	if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
+	    	fs.unlinkSync('./' + upload.path);
+	    	solr_client.delete('uploadId', req.param('id'));
+		res.send({ error: false, message: 'Upload: success.', data: data });
 	  });
 	});
 });
