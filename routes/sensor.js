@@ -31,8 +31,9 @@ router.delete('/:id', function(req, res, next) {
 	Sensor.remove({
   	_id: req.param('id')
   }, function(err, data) {
-    if (err) throw console.log({ error: true, message: 'Sensor: error.', data: err });
-	  res.send({ error: false, message: 'Sensor: success.', data: data });
+    	if (err) throw console.log({ error: true, message: 'Sensor: error.', data: err });
+    	solr_client.delete('sensorId', req.param('id'));
+    	res.send({ error: false, message: 'Sensor: success.', data: data });
   });
 });
 
