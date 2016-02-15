@@ -89,7 +89,7 @@ router.post('/', function(req, res, next){
 					 			_itens.push(object_collect);
 				 			}
 				 		});
-				 		solr_client.add(_itens,function(err,obj){
+				 		solr_client.add(_itens,function(err, obj){
 						  if (err) throw console.log({ error: true, message: 'Solr: error.', data: err });
 						  solr_client.commit();
 						  upload.status = 3;
@@ -110,7 +110,10 @@ router.delete('/:id', function(req, res, next) {
 	  }, function(err, data) {
 	    	if (err) throw console.log({ error: true, message: 'Upload: error.', data: err });
 	    	fs.unlinkSync('./' + upload.path);
-	    	solr_client.delete('uploadId', req.param('id'));
+	    	solr_client.delete('uploadId', req.param('id'), function(err, obj){
+		 	if (err) throw console.log({ error: true, message: 'Solr: error.', data: err });
+		  	solr_client.commit();
+		});
 		res.send({ error: false, message: 'Upload: success.', data: data });
 	  });
 	});
