@@ -32,7 +32,10 @@ router.delete('/:id', function(req, res, next) {
   	_id: req.param('id')
   }, function(err, data) {
     	if (err) throw console.log({ error: true, message: 'Sensor: error.', data: err });
-    	solr_client.delete('sensorId', req.param('id'));
+    	solr_client.delete('sensorId', req.param('id'), function(err, obj){
+	 	if (err) throw console.log({ error: true, message: 'Solr: error.', data: err });
+	  	solr_client.commit();
+	});
     	res.send({ error: false, message: 'Sensor: success.', data: data });
   });
 });
