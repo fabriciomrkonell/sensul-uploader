@@ -6,7 +6,6 @@
     "start": "node ./bin/www"
   },
   "engines": {
-    "node": "4.2.1",
     "npm": "2.14.17"
   },
   "dependencies": {

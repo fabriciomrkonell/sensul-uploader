@@ -35,7 +35,17 @@
 		},
 		this.hideLoader = function(){
 			$rootScope.loader.status = false;
-		}
+		},
+		this.transformDate = function(date){
+      var d = new Date();
+      d.setDate(parseInt(date.split("/")[0]));
+      d.setMonth(parseInt(date.split("/")[1]) - 1);
+      d.setFullYear(parseInt(date.split("/")[2].split(" ")[0]));
+      d.setHours(parseInt(date.split("/")[2].split(" ")[1].split(":")[0]));
+      d.setMinutes(date.split("/")[2].split(" ")[1].split(":")[1]);
+      d.setSeconds(0);
+      return d;
+    }
 	}]);
 
 }());

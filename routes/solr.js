@@ -23,8 +23,12 @@ function transformChart(data){
 	return array_exit;
 };
 
-router.post('/', function(req, res, next) {
+function transformDate(data){
+	var d = new Date(data);
+	return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + 'T' + d.getHours() + ':' + d.getMinutes() + ':00Z';
+}
 
+router.post('/', function(req, res, next) {
 
 	var perpage = 500000,
 			exit = {},
@@ -38,7 +42,14 @@ router.post('/', function(req, res, next) {
 		or_sensor.push(item);
 	});
 
-	query.q({ sensorId: '(' + or_sensor.toString().replaceAll(',', ' OR ') + ')', greenhouseId: req.body.greenhouse });
+	console.log(transformDate(req.body.startDate));
+	console.log(transformDate(req.body.endDate));
+
+	query.q({
+		sensorId: '(' + or_sensor.toString().replaceAll(',', ' OR ') + ')',
+		greenhouseId: req.body.greenhouse,
+		created: '[' + transformDate(req.body.startDate) + ' TO ' + transformDate(req.body.endDate) + ']'
+	});
 
 	solr_client.search(query, function(err, data){
     if (err) throw console.log({ error: true, message: 'Solr: error.', data: err });

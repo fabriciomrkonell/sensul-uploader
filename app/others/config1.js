@@ -65,7 +65,7 @@
       }).when('/collectchart', {
         templateUrl: '/partials/collectchart.html',
         resolve: {
-          deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/collectchart.js', 'app/libraries/highcharts/js/highcharts.min.js', '/app/libraries/bootstrap-multiselect/js/bootstrap-multiselect.js' ])
+          deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/collectchart.js', 'app/libraries/highcharts/js/highcharts.min.js', '/app/libraries/bootstrap-multiselect/js/bootstrap-multiselect.js', '/app/libraries/moment/js/moment.min.js', '/app/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' ])
         }
       }).otherwise({
         redirectTo: '/home'

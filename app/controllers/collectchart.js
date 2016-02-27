@@ -12,9 +12,26 @@
 
 		$('#sensors-multiselect').multiselect();
 
+		var date = new Date(),
+				startDate = new Date(date.getFullYear(), date.getMonth() - 1, date.getDate(), 0, 0),
+				endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0);
+
+		$('#daterange').daterangepicker({
+      startDate: startDate,
+      endDate: endDate,
+      timePicker24Hour: true,
+      timePicker: true,
+      timePickerIncrement: 5,
+      locale: {
+        format: 'DD/MM/YYYY HH:mm'
+      }
+    });
+
 		angular.extend($scope, {
 			showResult: false,
 			filter: {
+				startDate: startDate,
+				endDate: endDate,
 				page: 0,
 				chart: true
 			},
@@ -50,10 +67,14 @@
 		$scope.search = function(page){
 			if($scope.validForm()) return false;
 			Util.showLoader('Carregando Informações', 'Aguarde enquando os dados sāo carregados');
+
 			if(page === 0){
 				$scope.filter.greenhouse = $scope.data.greenhouse.greenhouse._id;
 				$scope.filter.sensors = $('#sensors-multiselect').val();
+				$scope.filter.startDate = Util.transformDate($('#daterange').val().split(" - ")[0]);
+				$scope.filter.endDate = Util.transformDate($('#daterange').val().split(" - ")[1]);
 			}
+
 			$http.post(Constant.url.Solr, $scope.filter).success(function(data){
 				$scope.showResult = (data.data.length > 0);
 				$('#container').highcharts({
