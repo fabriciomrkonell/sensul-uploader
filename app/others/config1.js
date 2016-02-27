@@ -60,7 +60,7 @@
       }).when('/collecttable', {
         templateUrl: '/partials/collecttable.html',
         resolve: {
-          deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/collecttable.js', '/app/libraries/bootstrap-multiselect/js/bootstrap-multiselect.js' ])
+          deps: angular.module('Sensul.controllers').resolveScriptDeps([ '/app/controllers/collecttable.js', '/app/libraries/bootstrap-multiselect/js/bootstrap-multiselect.js', '/app/libraries/moment/js/moment.min.js', '/app/libraries/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' ])
         }
       }).when('/collectchart', {
         templateUrl: '/partials/collectchart.html',

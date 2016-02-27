@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/app/libraries/bootstrap-multiselect/css/bootstrap-multiselect.min.css">
+<link rel="stylesheet" type="text/css" href="/app/libraries/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
 <div ng-controller="collecttableCtrl">
   <div class="row">
     <div class="col-sm-12">
@@ -13,7 +14,13 @@
                   <option value="">Selecione</option>
                  </select>
               </div>
-             </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label>Data</label>
+                <input type="text" class="form-control" id="daterange" />
+              </div>
+            </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label>Abrigo</label>
